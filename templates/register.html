@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+	<head>
+		 <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+    <!-- Bootstrap core CSS -->
+    <title>注册</title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="{% static 'css/astyle.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/signin.css' %}" rel="stylesheet">
+	<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
+    <script>
+        function keyregister() {
+            if (event.keyCode==13)
+                document.getElementById('register').click();
+        }
+    </script>
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+        <script>
+            $(function () {
+                $('#register').click(function (){
+        var username = $('#inputUsername').val();
+        var password = $('#inputPassword').val();
+        var tel = $('#inputTel').val();
+        var email = $('#inputEmail').val();
+        var gender = $('input:radio[name="gender"]:checked').val();
+        if (!username) {
+            $('.regError').html('用户名不符合规范').show();
+            return false;}
+            if (!password) {
+            $('.regError').html('密码不符合规范').show();
+            return false;}
+            $.ajaxSetup({
+            data: {csrfmiddlewaretoken: '{{ csrf_token }}'},
+        });
+        $.ajax({
+            type: "POST",
+            url: 'registerVerify/',
+            data: {username: username, password: password, tel:tel, email:email, gender:gender},
+            dataType: 'json',
+            cache: false,
+            success: function (data) {
+                if (data == 1) {
+                    alert('恭喜您，注册成功！')
+                    location.href = "{% url 'login' %}" ;}
+                    if (data == -1) {
+                    $('.regError').html('用户名已存在，请重新输入！').show();}
+                    if(data ==0){
+                 $('.regError').html('连接服务器失败，请稍后再试！！').show();}},
+            error: function () {
+                $('.regError').html('请求失败，请刷新页面后重试').show();}});
+        return false;});
+            });
+        </script>
+	</head>
+	<body onkeydown="keyregister()";>
+		<div class="container">
+			<form class="form-signin form-horizontal">
+				<h2 class="form-signin-heading">账号注册</h2>
+				<div class="form-group">
+					<label for="inputUsername" class="control-label col-sm-3">Username</label>
+					<div class="col-sm-9">
+						<input type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus/>				
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputPassword" class="control-label col-sm-3">Password</label>
+					<div class="col-sm-9">
+						<input type="password" id="inputPassword" class="form-control" placeholder="Password" required autofocus/>
+					</div>
+				</div>
+                <div class="form-group">
+					<label class="control-label col-sm-3">Gender</label>
+					<div id="checkbox" class="checkbox" style="margin:5px">
+					<label style="margin-left: 15px" >
+						<input name="gender" type="radio" value="1" />
+						男
+					</label>
+                        <label style="margin-left: 15px">
+						<input name="gender" type="radio" value="0" />
+						女
+					</label>
+				</div>
+				</div>
+				<div class="form-group">
+					<label for="inputTel" class="control-label col-sm-3">Tel</label>
+					<div class="col-sm-9">
+						<input type="text" id="inputTel" class="form-control" placeholder="Tel" required autofocus/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputEmail" class="control-label col-sm-3">Email</label>
+					<div class="col-sm-9">
+						<input type="text" id="inputEmail" class="form-control" placeholder="Email" required autofocus/>				
+					</div>
+                    <label for="inputUsername" class="regError"></label>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" value="同意协议" />
+						同意协议
+					</label>
+				</div>
+				<button id="register" class="btn btn-lg btn-primary btn-block" type="button" onclick="bottonClick()">确认</button>
+			</form>
+		</div>
+		<div class="mastfooter">
+				<div class="inner">
+					<p>Copyright&copy; 1993-2018 by <a href="#">Simon</a>.</p>
+      				<p>
+        				<a href="#">Back to top</a>
+      				</p>
+				</div>
+			</div>
+	</body>
+</html>

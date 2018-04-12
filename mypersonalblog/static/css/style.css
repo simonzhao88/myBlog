@@ -1,0 +1,22 @@
+.btn-primary {
+	background-color: #666;
+	border-color: gray;
+}
+.btn-primary:hover {
+	background-color: gray;
+	border-color: gray;
+}
+.form-control:focus{
+	border-color: #666;
+}
+.inner{
+	text-align: center;
+	padding: 30px;
+}
+/*.container{
+	padding: 50px;
+}*/
+.from-group{
+	margin-bottom: 10px;
+}
+
