@@ -44,6 +44,13 @@
 							</button>
 							<a class="navbar-brand" href="#">Simon</a>
 						</div>
+                        <div id="login">
+                            <li class="nav navbar-text pull-right navbar-collapse collapse">
+                                <a href="{% url 'login' %}" class="navbar-link">
+                                    登录
+                                </a>
+                            </li>
+                        </div>
 						<div id="navbar" class="navbar-collapse collapse">
 							<ul class="nav navbar-nav">
 								<li class="active">
@@ -90,9 +97,8 @@
 					<img class="first-slide" src="{% static 'img/banner.jpg' %}" alt="First slide" />
 					<div class="container">
 						<div class="carousel-caption">
-							<h1>111</h1>
-							<p>asf</p>
-							<p>dsgts</p>
+                            <h3>生存还是毁灭，这是一个值得思考的问题。</h3>
+                            <p class="pull-right">——（英国）莎士比亚《哈姆雷特》</p>
 						</div>
 					</div>
 				</div>
@@ -100,9 +106,9 @@
 					<img class="Second-slide" src="{% static 'img/01_header_image.jpg' %}" alt="Second slide" />
 					<div class="container">
 						<div class="carousel-caption">
-							<h1>111</h1>
-							<p>asf</p>
-							<p>dsgts</p>
+                            <h3>现在我只信，首先我是一个人，跟你一样的一个——至少我要学做一个人。</h3>
+                            <p class="pull-right">——（挪威）易卜生《玩偶之家》</p>
+                            <p></p>
 						</div>
 					</div>
 				</div>
@@ -110,9 +116,8 @@
 					<img class="Three-slide" src="{% static 'img/banner2.jpg' %}" alt="Three slide" />
 					<div class="container">
 						<div class="carousel-caption">
-							<h1>111</h1>
-							<p>asf</p>
-							<p>dsgts</p>
+                            <h3>他发现了人类行为的一大法则，自己还不知道——那就是，为了要使一个大人或小孩极想干某样事情，只需要设法把那件事情弄得不易到手就行了。</h3>
+                            <p class="pull-right">——（美国）马克•吐温《汤姆•索亚历险记》</p>
 						</div>
 					</div>
 				</div>
@@ -126,13 +131,15 @@
 				</a>
 			</div>
 		</div>
+        {% for artic in artics %}
 		<div class="container marketing">
 	      <!-- START THE FEATURETTES -->
 	      <hr class="featurette-divider">
+            {% if forloop.counter|divisibleby:'2' %}
 	      <div class="row featurette">
 	        <div class="col-md-7">
-	          <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your mind.</span></h2>
-	          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+                <h2 class="featurette-heading">{{ artic.art_tit }} <span class="text-muted"></span></h2>
+                <p class="lead">{{ artic.art_itr }}</p>
 	        </div>
 	        <div class="col-md-5">
 	          <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
@@ -140,33 +147,22 @@
 	      </div>
 	
 	      <hr class="featurette-divider">
-	
+            {% else %}
 	      <div class="row featurette">
 	        <div class="col-md-7 col-md-push-5">
-	          <h2 class="featurette-heading">Oh yeah, it's that good. <span class="text-muted">See for yourself.</span></h2>
-	          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+                <h2 class="featurette-heading">{{ artic.art_tit }} <span class="text-muted"></span></h2>
+                <p class="lead">{{ artic.art_itr }}</p>
 	        </div>
 	        <div class="col-md-5 col-md-pull-7">
 	          <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
 	        </div>
 	      </div>
-	
+
 	      <hr class="featurette-divider">
-	
-	      <div class="row featurette">
-	        <div class="col-md-7">
-	          <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
-	          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-	        </div>
-	        <div class="col-md-5">
-	          <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
-	        </div>
-	      </div>
-	
-	      <hr class="featurette-divider">
-		
+            {% endif %}
+        {% endfor %}
 		<footer class="mastfooter">
-      		<p>Copyright&copy; 1993-2018 by <a href="#">Simon</a>.</p>
+            <p>Copyright&copy; 1993-2018 by <a href="#">Simon</a></p>
       		<p>
         		<a href="#">Back to top</a>
       		</p>
@@ -176,5 +172,7 @@
 		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script src="{% static 'js/holder.js' %}"></script>
 		<script type="text/javascript" src="{% static 'js/workround.js' %}" ></script>
-	</body>
+
+        </div>
+    </body>
 </html>

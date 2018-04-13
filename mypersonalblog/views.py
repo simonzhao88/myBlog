@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 from .decoding import *
+from .models import Article
 from .models import SysUser
 from .models import UserInfo
 
@@ -11,10 +12,19 @@ def Login(request):
     return render(request, 'login.html')
 
 def index(request):
-    return render(request, 'index.html')
+    artics = Article.objects.all()
+    return render(request, 'index.html', {'artics': artics})
 
 def register(request):
     return render(request, 'register.html')
+
+
+def art_intr(request):
+    print('1234567')
+    artics = Article.objects.all()
+    for artic in artics:
+        print(artic)
+    return render(request, 'index.html', {'artics': artics})
 
 def loginVerify(request):
     if request.method == 'POST':
@@ -39,13 +49,13 @@ def registerVerify(request):
         gender = request.POST['gender']
         pwd = encrypt_password(password)
         password = dec(pwd)
-        # try:
-        if SysUser.objects.filter(username=username):
-            print(SysUser.objects.filter(username=username))
-            return HttpResponse('-1')
-        else:
-            SysUser.objects.create(username=username, password=password)
-            UserInfo.objects.create(user_tel=phone, user_eml=email, username=username, user_gender=gender)
-            return HttpResponse('1')
-        # except:
-        #     return HttpResponse('0')
+        try:
+            if SysUser.objects.filter(username=username):
+                print(SysUser.objects.filter(username=username))
+                return HttpResponse('-1')
+            else:
+                SysUser.objects.create(username=username, password=password)
+                UserInfo.objects.create(user_tel=phone, user_eml=email, username=username, user_gender=gender)
+                return HttpResponse('1')
+        except:
+            return HttpResponse('0')

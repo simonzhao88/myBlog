@@ -12,7 +12,7 @@ from django.db import models
 
 class ArtInfo(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
-    art_id = models.CharField(max_length=10)
+    art_id = models.IntegerField()
     art_aut = models.CharField(max_length=15)
     article = models.TextField()
     art_tit = models.CharField(max_length=30)
@@ -25,9 +25,9 @@ class ArtInfo(models.Model):
 class Article(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
     userid = models.CharField(max_length=5)
-    art_id = models.CharField(max_length=10)
-    art_tit = models.CharField(max_length=30)
-    art_itr = models.CharField(max_length=150)
+    art_id = models.IntegerField()
+    art_tit = models.TextField()
+    art_itr = models.TextField()
     type_no = models.IntegerField()
     art_type = models.CharField(max_length=10)
 
