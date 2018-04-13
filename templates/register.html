@@ -34,6 +34,7 @@
                 $('#register').click(function (){
         var username = $('#inputUsername').val();
         var password = $('#inputPassword').val();
+                    var repass = $('#reinputPassword').val();
         var tel = $('#inputTel').val();
         var email = $('#inputEmail').val();
         var gender = $('input:radio[name="gender"]:checked').val();
@@ -42,7 +43,11 @@
             return false;}
             if (!password) {
             $('.regError').html('密码不符合规范').show();
-            return false;}
+                return false;
+            }
+                    if (repass != password) {
+                        $('.regError').html('两次输入的密码不一致').show();
+                        return false;}
             $.ajaxSetup({
             data: {csrfmiddlewaretoken: '{{ csrf_token }}'},
         });
@@ -80,8 +85,15 @@
 					<label for="inputPassword" class="control-label col-sm-3">Password</label>
 					<div class="col-sm-9">
 						<input type="password" id="inputPassword" class="form-control" placeholder="Password" required autofocus/>
-					</div>
-				</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword" class="control-label col-sm-3">repassword</label>
+                    <div class="col-sm-9">
+                        <input type="password" id="reinputPassword" class="form-control" placeholder="rePassword"
+                               required autofocus/>
+                    </div>
+                </div>
                 <div class="form-group">
 					<label class="control-label col-sm-3">Gender</label>
 					<div id="checkbox" class="checkbox" style="margin:5px">
