@@ -54,7 +54,7 @@ class SysUser(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
     userid = models.CharField(max_length=5)
     username = models.CharField(max_length=15)
-    password = models.CharField(max_length=20)
+    password = models.CharField(max_length=200)
     isadmin = models.IntegerField(default=0)
 
     class Meta:
