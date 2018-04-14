@@ -20,6 +20,7 @@
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="{% static 'js/warning.js' %}"></script>
+    <script src="{% static 'js/blog.js' %}"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -46,9 +47,23 @@
 						</div>
                         <div id="login">
                             <li class="nav navbar-text pull-right navbar-collapse collapse">
-                                <a href="{% url 'login' %}" class="navbar-link">
+                                <a href="{% url 'mypersonalblog:login' %}" class="navbar-link">
                                     登录
                                 </a>
+                            </li>
+                        </div>
+                        <div id="register">
+                            <li class="nav navbar-text pull-right navbar-collapse collapse">
+                                /<a href="{% url 'mypersonalblog:register' %}" class="navbar-link">
+                                注册
+                            </a>
+                            </li>
+                        </div>
+                        <div id="img">
+                            <li class="nav navbar-text pull-right navbar-collapse collapse">
+                                <figure style="width: 40px;height: 40px;">
+                                    <img class="img-circle" src="{% static 'img/001.jpg' %}"/>
+                                </figure>
                             </li>
                         </div>
 						<div id="navbar" class="navbar-collapse collapse">

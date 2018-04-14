@@ -32,3 +32,4 @@ def enc(hashed):
 def validate_password(hashed, password):
     rehashed = encrypt_password(password, salt=hashed[:8])
     return hashed == rehashed
+

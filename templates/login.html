@@ -14,7 +14,7 @@
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <script>
         function bottonClick(e) {
-    window.location.href="{% url 'register' %}"
+            window.location.href = "{% url 'mypersonalblog:register' %}"
         }
         function keyLogin() {
             if (event.keyCode==13)
@@ -40,12 +40,13 @@
         $.ajax({
             type: "POST",
             url: 'loginVerify/',
-            data: {username: username, password: password},
+            data: {username: username, password: password, sessionid: sessionid},
             dataType: 'json',
             cache: false,
             success: function (data) {
                 if (data == 1) {
-                    location.href = "{% url 'index' %}" ;}
+                    location.href = "{% url 'mypersonalblog:index' %}";
+                }
                     if (data == -1 || data == 0) {
                     $('.loginError').html('用户名不存在或者用户名密码不匹配').show();}},
             error: function () {

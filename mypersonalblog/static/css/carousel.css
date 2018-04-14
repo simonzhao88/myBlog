@@ -8,8 +8,15 @@ body {
   padding: 0;
 }
 
+#login > li > a {
+    font-size: 16px;
+}
 
-/* CUSTOMIZE THE NAVBAR
+#register > li > a {
+    font-size: 16px;
+}
+
+/* CUSTOMIZE THE NAVBARs
 -------------------------------------------------- */
 
 /* Special class on .container surrounding .navbar, used for positioning it into place. */
@@ -78,7 +85,6 @@ body {
   margin-left: 10px;
 }
 
-
 /* Featurettes
 ------------------------- */
 
@@ -119,6 +125,23 @@ body {
     padding-left: 0;
   }
 
+    .navbar-nav > li > a {
+        padding-top: 18px;
+    }
+
+    #login {
+        position: absolute;
+        right: 50px;
+    }
+
+    #register {
+        position: absolute;
+        right: 5px;
+    }
+
+    .carousel-caption > h3 {
+        margin: 80px;
+    }
   /* The navbar becomes detached from the top, so we round the corners */
   .navbar-wrapper .navbar {
     border-radius: 4px;

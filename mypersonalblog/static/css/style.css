@@ -13,10 +13,14 @@
 	text-align: center;
 	padding: 30px;
 }
+
+.regError {
+    padding-left: 100px;
+    margin-top: 20px;
+}
 /*.container{
 	padding: 50px;
 }*/
 .from-group{
 	margin-bottom: 10px;
 }
-

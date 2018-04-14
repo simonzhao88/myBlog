@@ -52,7 +52,7 @@ class Comment(models.Model):
 
 class SysUser(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
-    userid = models.CharField(max_length=5)
+    userid = models.IntegerField()
     username = models.CharField(max_length=15)
     password = models.CharField(max_length=200)
     isadmin = models.IntegerField(default=0)
@@ -66,10 +66,10 @@ class SysUser(models.Model):
 class UserInfo(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
     username = models.CharField(max_length=10)
-    userid = models.CharField(max_length=5)
+    userid = models.IntegerField()
     user_tel = models.CharField(max_length=15, blank=True, null=True)
     user_eml = models.CharField(max_length=25, blank=True, null=True)
-    user_img = models.CharField(max_length=100, blank=True, null=True)
+    user_img = models.ImageField(max_length=100, blank=True, null=True)
     user_gender = models.IntegerField(blank=True, null=True)
 
     class Meta:
