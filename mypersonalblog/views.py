@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 
 from .decoding import encrypt_password, enc, validate_password, dec
 from .models import Article, SysUser, UserInfo
@@ -26,6 +27,8 @@ def art_intr(request):
         print(artic)
     return render(request, 'index.html', {'artics': artics})
 
+
+@csrf_exempt
 def loginVerify(request):
     if request.method == 'POST':
         username = request.POST['username']
