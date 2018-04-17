@@ -10,11 +10,14 @@ from .models import Article, SysUser, UserInfo
 def Login(request):
     return render(request, 'login.html')
 
+
 def index(request):
     artics = Article.objects.all()
-    id = SysUser.objects.get(id=request.session['user_id'])
-    return render(request, 'index.html', {'artics': artics, 'id': id})
-    # return render(request, 'index.html')
+    try:
+        id = SysUser.objects.get(id=request.session['user_id'])
+        return render(request, 'index.html', {'artics': artics, 'user_id': id})
+    except:
+        return render(request, 'index.html', {'artics': artics})
 
 def register(request):
     return render(request, 'register.html')
@@ -35,10 +38,10 @@ def loginVerify(request):
         password = request.POST['password']
         users = SysUser.objects.all()
         for user in users:
-
             if user.username == username and validate_password(enc(user.password), password):
                 request.session['user_id'] = user.id
                 print(request.session['user_id'])
+                request.session.set_expiry(0)
                 user_list = SysUser.objects.all()
                 context = {'user_list': user_list}
                 return HttpResponse('1')
@@ -55,7 +58,6 @@ def logout(request):
     return HttpResponse("You're logged out.")
 
 
-
 def registerVerify(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -65,7 +67,6 @@ def registerVerify(request):
         gender = request.POST['gender']
         pwd = encrypt_password(password)
         password = dec(pwd)
-        # try:
         if SysUser.objects.filter(username=username):
             print(SysUser.objects.filter(username=username))
             return HttpResponse('-1')
@@ -73,5 +74,3 @@ def registerVerify(request):
             SysUser.objects.create(username=username, password=password)
             UserInfo.objects.create(user_tel=phone, user_eml=email, username=username, user_gender=gender)
             return HttpResponse('1')
-        # except:
-        #     return HttpResponse('0')
