@@ -3,7 +3,7 @@
  */
 
 body {
-  font-family: Georgia, "Times New Roman", Times, serif;
+    /*font-family: Georgia, "Times New Roman", Times, serif;*/
   color: #555;
 }
 
@@ -19,15 +19,23 @@ h6, .h6 {
   color: #333;
 }
 
+.breadcrumb {
+    font-size: 20px;
+}
+
+ol {
+    margin-top: 10px;
+}
+
 
 /*
  * Override Bootstrap's default container.
  */
 
 @media (min-width: 1200px) {
-  .container {
-    width: 970px;
-  }
+    /*.container {*/
+    /*width: 970px;*/
+    /*}*/
 }
 
 
