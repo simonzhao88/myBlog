@@ -8,21 +8,17 @@
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
 
     <title>Simon's Blog</title>
 
     <!-- Bootstrap core CSS -->
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="{% static 'css/astyle.css' %}" rel="stylesheet">
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <!--[if lt IE 9]>
+    <script src="../../assets/js/ie8-responsive-file-warning.js"></script>
+    <![endif]-->
     <script src="{% static 'js/warning.js' %}"></script>
     <script src="{% static 'js/blog.js' %}"></script>
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
@@ -46,30 +42,6 @@
                     </button>
                     <a class="navbar-brand" href="#">Simon</a>
                 </div>
-                {% if not user_id %}
-                    <div id="login">
-                        <li class="nav navbar-text pull-right navbar-collapse collapse">
-                            <a href="{% url 'mypersonalblog:login' %}" class="navbar-link">
-                                登录
-                            </a>
-                        </li>
-                    </div>
-                    <div id="register">
-                        <li class="nav navbar-text pull-right navbar-collapse collapse">
-                            /<a href="{% url 'mypersonalblog:register' %}" class="navbar-link">
-                            注册
-                        </a>
-                        </li>
-                    </div>
-                {% else %}
-                    <div id="img">
-                        <li class="nav navbar-text pull-right navbar-collapse collapse">
-                            <figure style="width: 25px;height: 25px; padding-top: 0">
-                                <img class="img-circle" src="{% static 'img/001.jpg' %}"/>
-                            </figure>
-                        </li>
-                    </div>
-                {% endif %}
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li class="active">
@@ -93,6 +65,7 @@
                                 <li><a href="#">python</a></li>
                                 <li><a href="#">css</a></li>
                                 <li><a href="#">js</a></li>
+                                <li><a href="#">mysql</a></li>
                             </ul>
                         </li>
                         <li>
@@ -101,10 +74,56 @@
                             </a>
                         </li>
                     </ul>
-                </div>
+                    <ul id="rightbox" class="pull-right" style="height: 30px; width: 400px; margin: 0">
+                        <form class="navbar-form pull-left col-lg-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Search">
+                                <button type="submit" class="btn btn-default pull-right">搜索</button>
+                            </div>
+                        </form>
+                        {% if not user_id %}
+                            <div id="loginbox" class="pull-right">
+                                <div id="login">
+                                    <li class="nav navbar-text pull-right navbar-collapse collapse">
+                                        <a href="{% url 'mypersonalblog:login' %}" class="navbar-link">
+                                            登录
+                                        </a>
+                                    </li>
+                                </div>
+                                <div id="register">
+                                    <li class="nav navbar-text pull-right navbar-collapse collapse">
+                                        /<a href="{% url 'mypersonalblog:register' %}" class="navbar-link">
+                                        注册
+                                    </a>
+                                    </li>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div id="img" class="pull-right" style="margin: 5px">
+                                <li class="dropdown nav pull-right navbar-collapse collapse">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">
+                                        <figure>
+                                            <img class="img-circle" src="{% static 'img/001.jpg' %}"/>
+                                        </figure>
+                                        <ul class="dropdown-menu">
+                                            <li><a>您好，{{ userinfo.nickname }}！</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li><a href="#">个人中心</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li><a href="{% url 'mypersonalblog:logout' %}">
+                                                安全退出
+                                            </a></li>
+                                        </ul>
+                                    </a>
+                            </div>
+                            </ul>
+                            </div>
+                        {% endif %}
             </div>
         </nav>
     </div>
+</div>
 </div>
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
@@ -158,12 +177,15 @@
     {% if forloop.counter|divisibleby:'2' %}
         <div class="row featurette">
             <div class="col-md-7">
-                <h2 class="featurette-heading">{{ artic.art_tit }} <span class="text-muted"></span></h2>
+                <h4 class="featurette-heading">{{ artic.art_tit }} <span class="text-muted"></span></h4>
                 <p class="lead">{{ artic.art_itr }}</p>
+                <p><a class="btn btn-primary btn-lg" href="{% url 'mypersonalblog:blogdet' artic.art_id %}"
+                      role="button">阅读全文</a>
+                </p>
             </div>
             <div class="col-md-5">
-                <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto"
-                     alt="Generic placeholder image">
+                <img class="featurette-image img-responsive center-block" data-src="{% static 'img/mm/111.jpg' %}"
+                     alt="day jokes">
             </div>
         </div>
 
@@ -171,11 +193,14 @@
     {% else %}
         <div class="row featurette">
             <div class="col-md-7 col-md-push-5">
-                <h2 class="featurette-heading">{{ artic.art_tit }} <span class="text-muted"></span></h2>
+                <h4 class="featurette-heading">{{ artic.art_tit }} <span class="text-muted"></span></h4>
                 <p class="lead">{{ artic.art_itr }}</p>
+                <p><a class="btn btn-primary btn-lg" href="{% url 'mypersonalblog:blogdet' artic.art_id %}"
+                      role="button">阅读全文</a>
+                </p>
             </div>
             <div class="col-md-5 col-md-pull-7">
-                <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto"
+                <img class="featurette-image img-responsive center-block" data-src="{% static 'img/mm/222.jpg' %}"
                      alt="Generic placeholder image">
             </div>
         </div>
@@ -192,6 +217,7 @@
 <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="{% static 'css/bootstrap.css' %}"></script>
 <script src="{% static 'js/holder.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/workround.js' %}"></script>
 

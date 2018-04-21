@@ -1,16 +1,16 @@
-function init() {
-    alert(user)
-    if (user == "null") {
-        var center = document.getElementById("img");
-        // var exit = document.getElementById("exit");
-        center.style.display = 'none';
-        exit.style.display = 'none';
-    } else {
-        var login = document.getElementById("login");
-        register.style.display = 'none';
-        login.style.display = 'none';
-    }
-}
+// function init() {
+//     alert(user)
+//     if (user == "null") {
+//         var center = document.getElementById("img");
+//         // var exit = document.getElementById("exit");
+//         center.style.display = 'none';
+//         exit.style.display = 'none';
+//     } else {
+//         var login = document.getElementById("login");
+//         register.style.display = 'none';
+//         login.style.display = 'none';
+//     }
+// }
 
 $(function () {
     $('#login').click(function () {
@@ -36,7 +36,7 @@ $(function () {
             cache: false,
             success: function (data) {
                 if (data == 1) {
-                    window.location.href = "/";
+                    window.location.href = '/';
                 }
                 if (data == -1 || data == 0) {
                     $('.loginError').html('用户名不存在或者用户名密码不匹配').show();
@@ -60,7 +60,7 @@ function keyLogin() {
         document.getElementById('login').click()
 }
 
-function alt() {
-    if (_request.session.user_id)
-        alert(_request.session.user_id)
+function mouseon() {
+    var logout = document.getElementById('logout');
+    logout.style.visibility = 'visible';
 }

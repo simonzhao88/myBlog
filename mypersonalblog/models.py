@@ -16,6 +16,7 @@ class ArtInfo(models.Model):
     art_aut = models.CharField(max_length=15)
     article = models.TextField()
     art_tit = models.CharField(max_length=30)
+    art_crtime = models.DateField()
 
     class Meta:
         managed = False
@@ -40,7 +41,7 @@ class Article(models.Model):
 class Comment(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
     art_id = models.CharField(max_length=10)
-    user_name = models.CharField(max_length=10)
+    nickname = models.CharField(max_length=10)
     comment = models.TextField()
     user_id = models.CharField(max_length=5)
 
@@ -65,14 +66,14 @@ class SysUser(models.Model):
 
 class UserInfo(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
-    username = models.CharField(max_length=10)
     userid = models.IntegerField()
     user_tel = models.CharField(max_length=15, blank=True, null=True)
     user_eml = models.CharField(max_length=25, blank=True, null=True)
     user_img = models.ImageField(max_length=100, blank=True, null=True)
+    nickname = models.CharField(max_length=10)
     user_gender = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'user_info'
-        unique_together = (('id', 'username'),)
+        unique_together = (('id', 'nickname'),)
