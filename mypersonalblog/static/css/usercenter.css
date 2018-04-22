@@ -1,0 +1,61 @@
+. {
+    margin: 0;
+    padding: 0;
+}
+
+html, body, div, p, ul, li, dl, dt, dd, h1, h2, h3, h4, h5, h6, form, input, select, button, textarea, iframe, table, th, td {
+    margin: 0;
+    padding: 0;
+}
+
+.clearfix {
+    display: block;
+    min-height: 2%;
+}
+
+div {
+    display: block;
+}
+
+#wrap {
+    width: 1000px;
+    margin: 0px auto 60px;
+    padding-top: 80px;
+}
+
+.u_header {
+    height: 50px;
+    margin-bottom: 20px;
+    border-bottom: 2px #ebebeb solid;
+}
+
+.u_header h1 {
+    width: 167px;
+    height: 50px;
+    font-size: 30px;
+    color: #555555;
+    border-bottom: 2px #1b1e21 solid;
+    text-align: center;
+}
+
+.f1, .fr {
+    display: inline;
+    float: left;
+}
+
+.u_nav {
+    width: 168px;
+    float: left;
+    overflow: hidden;
+}
+
+.u_nav li a {
+    position: relative;
+    display: block;
+    padding: 13px 0;
+    padding-left: 28px;
+    color: #555555;
+    line-height: 22px;
+    font-size: 14px;
+    border-bottom: 1px #eeeeee solid;
+}

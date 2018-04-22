@@ -69,7 +69,7 @@ class UserInfo(models.Model):
     userid = models.IntegerField()
     user_tel = models.CharField(max_length=15, blank=True, null=True)
     user_eml = models.CharField(max_length=25, blank=True, null=True)
-    user_img = models.ImageField(max_length=100, blank=True, null=True)
+    user_img = models.CharField(max_length=100, blank=True, null=True)
     nickname = models.CharField(max_length=10)
     user_gender = models.IntegerField(blank=True, null=True)
 

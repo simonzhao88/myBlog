@@ -89,6 +89,12 @@ def registerVerify(request):
             UserInfo.objects.create(user_tel=phone, user_eml=email, nickname=nickname, user_gender=gender)
             return HttpResponse('1')
 
+
+def usercenter(request):
+    user_id = request.session.get('user_id', '')
+    return render(request, 'usercenter.html', {'user_id': user_id})
+
+
 # def showjokes(request):
 #     day_joke = Joke()
 #     jokes = day_joke.get_joke()
