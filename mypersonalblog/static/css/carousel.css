@@ -15,15 +15,12 @@ body {
 #register > li > a {
     font-size: 16px;
 }
-
 .img-circle:hover {
     visibility: visible;
 }
-
 .featurette p a {
     background-color: #5a5a5a;
 }
-
 .btn-primary:hover {
     color: #fff;
     background-color: #5a5a5a;

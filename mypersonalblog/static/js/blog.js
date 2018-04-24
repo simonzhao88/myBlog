@@ -52,14 +52,16 @@ $(function () {
 
 function bottonClick(e) {
     window.location.href = "/register/"
-}
+};
 
 function keyLogin() {
     if (event.keyCode == 13)
         document.getElementById('login').click()
-}
+};
 
-function mouseon() {
-    var logout = document.getElementById('logout');
-    logout.style.visibility = 'visible';
-}
+$(function () {
+    $("#funclist li").click(function () {
+        $(this).siblings().removeClass();
+        $(this).toggleClass('active');
+    })
+});

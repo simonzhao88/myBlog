@@ -92,9 +92,14 @@ def registerVerify(request):
 
 def usercenter(request):
     user_id = request.session.get('user_id', '')
-    return render(request, 'usercenter.html', {'user_id': user_id})
+    userinfo = UserInfo.objects.get(userid=user_id)
+    return render(request, 'usercenter.html', {'user_id': user_id, 'userinfo': userinfo})
 
 
+def writeblog(request):
+    user_id = request.session.get('user_id', '')
+    userinfo = UserInfo.objects.get(userid=user_id)
+    return render(request, 'writeblog.html', {'user_id': user_id, 'userinfo': userinfo})
 # def showjokes(request):
 #     day_joke = Joke()
 #     jokes = day_joke.get_joke()

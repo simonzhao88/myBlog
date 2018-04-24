@@ -11,7 +11,8 @@ urlpatterns = [
     path('register/registerVerify/', views.registerVerify, name='registerVerify'),
     path('logout/', views.logout, name='logout'),
     re_path('blogdet/(\d+)/', views.blogdet, name='blogdet'),
-    path('usercenter/', views.usercenter, name='usercenter'),
+    path('usercenter/myinfo', views.usercenter, name='usercenter'),
+    path('usercenter/writeblog', views.writeblog, name='writeblog'),
 ]
 
 app_name = 'mypersonalblog'

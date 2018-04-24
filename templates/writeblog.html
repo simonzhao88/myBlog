@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>写博客</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
@@ -144,8 +145,8 @@
                     </p>
                 </div>
                 <ul class="nav nav-pills nav-stacked" id="funclist">
-                    <li id="myinfo" role="presentation" class="active" onclick="activ(this)"><a href="#">我的资料</a></li>
-                    <li id="writeblog" role="presentation"><a href="{% url 'mypersonalblog:writeblog' %}">写博客</a></li>
+                    <li id="myinfo" role="presentation"><a href="{% url 'mypersonalblog:usercenter' %}">我的资料</a></li>
+                    <li id="writeblog" role="presentation" class="active"><a href="#">写博客</a></li>
                     <li id="blogctrl" role="presentation"><a href="#">文章管理</a></li>
                     <li id="webmsg" role="presentation"><a href="#">站内信</a></li>
                     <li id="mycolloct" role="presentation"><a href="#">我的收藏</a></li>
@@ -155,90 +156,55 @@
                 <div class="user_myprofile user_info_page">
                     <div class="togglebtn clearfix" id="js_tab_ul">
                         <span class="f1"></span>
-                        <p class="f1">我的资料</p>
+                        <p class="f1">写博客</p>
                     </div>
-                    <div class="myprofile_main clearfix data_cont white_bg" id="js_info_div">
-                        <div class="userinfo clearfix">
-                            <div class="uinfo_left f1">
-                                <div class="utx f1">
-                                    <a href="#">
-                                        <img src="{% static 'img/0001.jpg' %}" width="120px" height="120px">
-                                    </a>
+                    <div class="w_main">
+                        <form action="" method="post">
+                            <div class="article_form">
+                                <label>文章标题：</label>
+                                <input type="text" class="write" name="title">
+                            </div>
+                            <div class="article_form">
+                                <label>文章简介：</label>
+                                <input type="text" class="write" name="introduction">
+                            </div>
+                            <div class="article_form">
+                                <label>文章内容：</label>
+                            </div>
+                            <div class="article">
+                                <div id="txtdiv">
                                 </div>
-                                <div class="f1 udetail_info">
-                                    <div class="uname clearfix">
-                                        <h2 class="f1 clearfix" style="float: left;">昵称：Simon</h2>
-                                        <a href="#" class="updateUname clearfix">
-                                            <i title="修改昵称"></i>
-                                        </a>
-                                    </div>
-                                    <div class="m_rank clearfix">
-                                        <div class="m_rank_item">
-                                            <span class="m_rank_item_title">用户等级</span>
-                                            <span class="user_level">Lv0</span>
-                                            <div class="progress">
-                                                <div class="progress-bar bar" role="progressbar" aria-valuenow="60"
-                                                     aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                                                    60%
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <span class="m_rank_item_title">积分：50</span>
-                                            </div>
+                            </div>
+                            <div class="tag">
 
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="#" class="modifyinfo">修改资料</a>
                             </div>
-                        </div>
-                        <div class="mobile_email clearfix">
-                            <div class="mobile_email_title clearfix">
-                                <p class="userdata_set f1">账号设置</p>
+                            <div>
+                                <input type="submit" value="提交">
                             </div>
-                            <ul class="user_check_total clearfix">
-                                <li class="user_check_detial user_check_detial_left f1">
-                                    <div class="user_check_message f1">
-                                        <p class="user_phonenum user_infoshow">手机已绑定</p>
-                                        <p class="info_tips">135000000000</p>
-                                    </div>
-                                    <a href="#" class="user_check_link updateMobile f1 checkphone">修改手机</a>
-                                </li>
-                                <li class="user_check_detial f1">
-                                    <div class="user_check_message f1">
-                                        <p class="user_pwdlv user_infoshow">密码强度(中)</p>
-                                        <p class="info_tips">请提升密码等级</p>
-                                    </div>
-                                    <a href="#" class="user_check_link updateMobile f1 checkphone">修改密码</a>
-                                </li>
-                                <li class="user_check_detial user_check_detial_left f1">
-                                    <div class="user_check_message f1">
-                                        <p class="user_emailstatus user_infoshow">邮箱已绑定</p>
-                                        <p class="info_tips">642252108@qq.com</p>
-                                    </div>
-                                    <a href="#" class="user_check_link updateMobile f1 checkphone">修改邮箱</a>
-                                </li>
-                            </ul>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<div>
-    <footer class="mastfooter">
-        <p>Copyright&copy; 1993-2018 by <a href="#">Simon</a></p>
-        <p>
-            <a href="#">Back to top</a>
-        </p>
-    </footer>
-    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="{% static 'css/bootstrap.css' %}"></script>
-    <script src="{% static 'js/holder.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/workround.js' %}"></script>
-</div>
+        <div>
+            <footer class="mastfooter">
+                <p>Copyright&copy; 1993-2018 by <a href="#">Simon</a></p>
+                <p>
+                    <a href="#">Back to top</a>
+                </p>
+            </footer>
+            <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+            <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+            <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+            <script src="{% static 'css/bootstrap.css' %}"></script>
+            <script src="{% static 'js/holder.js' %}"></script>
+            <script src="{% static 'css/release/wangEditor.min.js' %}"></script>
+            <script type="text/javascript">
+                var E = window.wangEditor
+                var editor2 = new E('#txtdiv')
+                editor2.create()
+            </script>
+            <script type="text/javascript" src="{% static 'js/workround.js' %}"></script>
+        </div>
 </body>
 </html>
