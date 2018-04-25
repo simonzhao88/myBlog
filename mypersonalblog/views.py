@@ -18,20 +18,31 @@ def login(request):
     return render(request, 'login.html')
 
 
-def index(request):
+def login_required(func):
+    def check_login(request):
+        if request.session.get('user_id', ''):
+            user_id = request.session.get('user_id', '')
+            userinfo = UserInfo.objects.get(userid=user_id)
+        else:
+            user_id = ''
+            userinfo = ''
+        return func(request, user_id, userinfo)
+
+    return check_login
+
+
+@login_required
+def index(request, user_id, userinfo):
     """
     首页页面并验证是否登录
     :param request:
+    :param user_id: 用户id
+    :param userinfo: 用户信息
     :return:
     """
     # day_joke = Joke()
     # jokes = day_joke.get_joke()
     artics = art_intr(request)
-    user_id = request.session.get('user_id', '')
-    if user_id:
-        userinfo = UserInfo.objects.get(userid=user_id)
-    else:
-        userinfo = 'null'
     return render(request, 'index.html', {'artics': artics, 'user_id': user_id, 'userinfo': userinfo})
 
 
@@ -53,20 +64,18 @@ def art_intr(request):
     return Article.objects.all()
 
 
-def blogdet(request, art_id):
+@login_required
+def blogdet(request, art_id, user_id, userinfo):
     """
     博客详情页面并验证是否登录
     :param request:
     :param art_id: 文章id
+    :param user_id: 用户id
+    :param userinfo: 用户信息
     :return:
     """
-    user_id = request.session.get('user_id', '')
     artinfo = ArtInfo.objects.get(art_id=int(art_id))
     article = Article.objects.get(art_id=int(art_id))
-    if user_id:
-        userinfo = UserInfo.objects.get(userid=user_id)
-    else:
-        userinfo = 'null'
     return render(request, 'blogdet.html', {'user_id': user_id,
                                             'userinfo': userinfo,
                                             'artinfo': artinfo,
@@ -132,30 +141,27 @@ def registerVerify(request):
             return HttpResponse('1')
 
 
-def usercenter(request):
+@login_required
+def usercenter(request, user_id, userinfo):
     """
     跳转用户中心并验证登录
     :param request:
+    :param user_id: 用户
+    :param userinfo: 用户信息
     :return:
     """
-    try:
-        user_id = request.session.get('user_id', '')
-        userinfo = UserInfo.objects.get(userid=user_id)
-    except:
-        user_id = ''
-        userinfo = ''
-        return render(request, 'usercenter.html', {'user_id': user_id, 'userinfo': userinfo})
     return render(request, 'usercenter.html', {'user_id': user_id, 'userinfo': userinfo})
 
 
-def writeblog(request):
+@login_required
+def writeblog(request, user_id, userinfo):
     """
-    写博客页面
+    渲染写博客页面
     :param request:
+    :param user_id: 用户id
+    :param userinfo: 用户信息
     :return:
     """
-    user_id = request.session.get('user_id', '')
-    userinfo = UserInfo.objects.get(userid=user_id)
     return render(request, 'writeblog.html', {'user_id': user_id, 'userinfo': userinfo})
 
 
@@ -169,38 +175,41 @@ def getarticle(request):
     pass
 
 
-def articlectrl(request):
+@login_required
+def articlectrl(request, user_id, userinfo):
     """
     渲染文章管理界面
     :param request:
+    :param user_id: 用户id
+    :param userinfo: 用户信息
     :return:
     """
-    user_id = request.session.get('user_id', '')
-    userinfo = UserInfo.objects.get(userid=user_id)
     return render(request, 'articlectrl.html', {'user_id': user_id, 'userinfo': userinfo})
 
 
-def tagctrl(request):
+@login_required
+def tagctrl(request, user_id, userinfo):
     """
     渲染标签管理界面
     完成标签的增加删除
     :param request:
+    :param user_id: 用户id
+    :param userinfo: 用户信息
     :return:
     """
-    user_id = request.session.get('user_id', '')
-    userinfo = UserInfo.objects.get(userid=user_id)
     return render(request, 'tagctrl.html', {'user_id': user_id, 'userinfo': userinfo})
 
 
-def adminctrl(request):
+@login_required
+def adminctrl(request, user_id, userinfo):
     """
     渲染权限管理界面
     实现对账户权限管理
     :param request:
+    :param user_id: 用户id
+    :param userinfo: 用户信息
     :return:
     """
-    user_id = request.session.get('user_id', '')
-    userinfo = UserInfo.objects.get(userid=user_id)
     return render(request, 'adminctrl.html', {'user_id': user_id, 'userinfo': userinfo})
 # def showjokes(request):
 #     day_joke = Joke()
