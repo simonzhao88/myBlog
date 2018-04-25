@@ -8,11 +8,12 @@ body {
     padding: 0;
 }
 
-#login > li > a {
+.login > li > a {
     font-size: 16px;
+    text-decoration: none;
 }
 
-#register > li > a {
+.register > li a {
     font-size: 16px;
 }
 .img-circle:hover {
@@ -145,7 +146,7 @@ body {
         padding-top: 18px;
     }
 
-    #login {
+    .login {
         position: absolute;
         right: 50px;
     }
@@ -155,7 +156,7 @@ body {
         margin-right: 100px;
     }
 
-    #register {
+    .register {
         position: absolute;
         right: 5px;
     }

@@ -99,7 +99,7 @@ div {
 .user_myprofile .togglebtn p {
     height: 40px;
     line-height: 40px;
-    font-size: 16px;
+    font-size: 18px;
     margin-left: 10px;
     color: #555555;
 }
@@ -238,4 +238,69 @@ div {
 #txtdiv {
     border: 1px solid gray;
     min-height: 240px;
+}
+
+div:nth-child(5) > a {
+    text-decoration: none;
+    margin-left: 30px;
+    padding: 4px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    color: gray;
+    cursor: pointer;
+}
+
+.tag {
+    background-color: #555555;
+    color: white !important;
+}
+
+#commitarticle {
+    text-align: center;
+}
+
+input[type='submit'] {
+    display: inline-block;
+    width: 70px;
+    height: 40px;
+    font-size: 18px;
+    color: white;
+    background-color: #555;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.articletype {
+    margin: 60px 0 0 30px;
+    font-size: 18px;
+    list-style: none;
+}
+
+.articletype .articletype_s {
+    border-radius: 5px;
+}
+
+.articlectrl {
+    margin: 30px 0 0 30px;
+    font-size: 18px;
+    /*text-align: center;*/
+}
+
+.articlectrl .article_ol .article_li {
+    /*list-style: none;*/
+    margin: 20px 0 20px 20px;
+}
+
+.article_ol .article_li a {
+    text-decoration: none;
+    cursor: pointer;
+    /*float: right;*/
+    margin-right: 50px;
+}
+
+.split {
+    float: right;
+    margin-right: 50px;
+    margin-top: 20px;
 }
