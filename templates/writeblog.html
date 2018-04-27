@@ -8,6 +8,7 @@
     {% endblock %}
     {% block css %}
         <link rel="stylesheet" href="{% static 'css/usercenter.css' %}">
+        <script src="{% static 'js/writearticle.js' %}"></script>
     {% endblock %}
 </head>
 {% block main %}
@@ -49,14 +50,24 @@
                             <p class="f1">写博客</p>
                         </div>
                         <div class="w_main">
-                            <form action="" method="post">
+                            <form action="{% url 'mypersonalblog:getarticle' %}" method="post">
                                 <div class="article_form">
                                     <label>文章标题：</label>
-                                    <input type="text" class="write" name="title">
+                                    <input type="text" class="write" id="title">
                                 </div>
                                 <div class="article_form">
                                     <label>文章简介：</label>
-                                    <input type="text" class="write" name="introduction">
+                                    <input type="text" class="write" id="introduction">
+                                </div>
+                                <div class="article_form">
+                                    <label>文章分类:</label>
+                                    <select class="articletype_w" id="articletype">
+                                        <option value="1">Python</option>
+                                        <option value="2">MySql</option>
+                                        <option value="3">JavaScript</option>
+                                        <option value="4">HTML</option>
+                                        <option value="5">CSS</option>
+                                    </select>
                                 </div>
                                 <div class="article_form">
                                     <label>文章内容：</label>
@@ -65,11 +76,15 @@
                                     <div id="txtdiv">
                                     </div>
                                 </div>
+                                <input type="hidden" id="val" name="content"/>
                                 <div id="tag">
                                     <label class="article_form">标签：</label>
-                                    <a type="button" value="python">python</a>
-                                    <a type="button" value="html">html</a>
-                                    <a type="button" value="css">css</a>
+                                    <a type="button" name="python">python</a>
+                                    <a type="button" name="html">html</a>
+                                    <a type="button" name="css">css</a>
+                                </div>
+                                <div class="write_error">
+                                    <label class="error"></label>
                                 </div>
                                 <div id="commitarticle">
                                     <input type="submit" value="提交">
@@ -88,6 +103,11 @@
         var E = window.wangEditor
         var editor2 = new E('#txtdiv')
         editor2.create()
+        document.getElementById('commitarticle').addEventListener('click', function () {
+            // 读取 html
+            var content = editor2.txt.html()
+            document.getElementById('val').value = content
+        }, false)
     </script>
     <script type="text/javascript" src="{% static 'js/workround.js' %}"></script>
 {% endblock %}

@@ -54,44 +54,26 @@
                         <select class="articletype_s">
                             <option class="articletype_o" value="1">Python</option>
                             <option class="articletype_o" value="2">MySql</option>
-                            <option class="articletype_o" value="3">HTML</option>
-                            <option class="articletype_o" value="4">CSS</option>
-                            <option class="articletype_o" value="5">JavaScript</option>
+                            <option class="articletype_o" value="3">JavaScript</option>
+                            <option class="articletype_o" value="4">HTML</option>
+                            <option class="articletype_o" value="5">CSS</option>
                         </select>
                     </div>
                     <div class="articlectrl">
                         <ol class="article_ol">
-                            <li class="article_li">dasdasfsafasf
-                                <div class="pull-right">
-                                    <a>修改</a>
-                                    <a>删除</a>
-                                </div>
-                            </li>
-                            <li class="article_li">sagfadsgasgsag
-                                <div class="pull-right">
-                                    <a>修改</a>
-                                    <a>删除</a>
-                                </div>
-                            </li>
-                            <li class="article_li">asgasgasgasgsd
-                                <div class="pull-right">
-                                    <a>修改</a>
-                                    <a>删除</a>
-                                </div>
-                            </li>
-                            <li class="article_li">sdgsdgsdgshgrew
-                                <div class="pull-right">
-                                    <a>修改</a>
-                                    <a>删除</a>
-                                </div>
-                            </li>
-                            <li class="article_li">zhdfhdfhdfhdfh
-                                <div class="pull-right">
-                                    <a>修改</a>
-                                    <a>删除</a>
-                                </div>
-                            </li>
+                            <li class="article_li art_tle">文章标题</li>
+                            <li class="article_li">作者</li>
+                            <li class="article_li">阅读量</li>
+                            <li class="article_li">操作</li>
                         </ol>
+                        {% for article in articles %}
+                            <ol class="article_ol">
+                                <li class="article_de article_li art_tle">{{ article.art_tit }}</li>
+                                <li class="article_de article_li">{{ article.userid }}</li>
+                                <li class="article_de article_li">{{ article.article_click }}</li>
+                                <li class="article_de article_li"><a>修改</a><a>删除</a></li>
+                            </ol>
+                        {% endfor %}
                     </div>
                     <nav aria-label="..." class="split">
                         <ul class="pagination">

@@ -13,6 +13,11 @@ body {
     text-decoration: none;
 }
 
+.col-md-7 .lead {
+    overflow: hidden;
+    height: 180px;
+}
+
 .register > li a {
     font-size: 16px;
 }
@@ -184,6 +189,6 @@ body {
 
 @media (min-width: 992px) {
     .featurette-heading {
-        margin-top: 120px;
+        margin-top: 40px;
     }
 }

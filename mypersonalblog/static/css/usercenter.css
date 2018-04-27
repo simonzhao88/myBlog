@@ -240,7 +240,7 @@ div {
     min-height: 240px;
 }
 
-div:nth-child(5) > a {
+#tag > a {
     text-decoration: none;
     margin-left: 30px;
     padding: 4px;
@@ -259,6 +259,9 @@ div:nth-child(5) > a {
     text-align: center;
 }
 
+.write_error {
+    text-align: center;
+}
 input[type='submit'] {
     display: inline-block;
     width: 70px;
@@ -284,23 +287,39 @@ input[type='submit'] {
 .articlectrl {
     margin: 30px 0 0 30px;
     font-size: 18px;
-    /*text-align: center;*/
+    border-bottom: 1px solid gray;
 }
 
+.article_ol {
+    padding: 0 !important;
+}
 .articlectrl .article_ol .article_li {
-    /*list-style: none;*/
-    margin: 20px 0 20px 20px;
+    list-style: none;
+    width: 140px;
+    display: inline-block;
+    text-align: center;
+}
+
+.articlectrl .article_ol .article_de {
+    font-size: 14px;
+}
+
+.articlectrl .article_ol .art_tle {
+    width: 310px;
 }
 
 .article_ol .article_li a {
     text-decoration: none;
     cursor: pointer;
-    /*float: right;*/
-    margin-right: 50px;
+    margin-right: 30px;
 }
 
 .split {
     float: right;
     margin-right: 50px;
     margin-top: 20px;
+}
+
+.article_form .articletype_w {
+    margin-left: 20px;
 }

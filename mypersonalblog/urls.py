@@ -16,6 +16,7 @@ urlpatterns = [
     path('usercenter/articlectrl', views.articlectrl, name='articlectrl'),
     path('usercenter/tagctrl', views.tagctrl, name='tagctrl'),
     path('usercenter/adminctrl', views.adminctrl, name='adminctrl'),
+    path('usercenter/getarticle', views.getarticle, name='getarticle'),
 ]
 
 app_name = 'mypersonalblog'

@@ -4,7 +4,7 @@
 <html lang="zh-CN">
 <head>
     {% block title %}
-        <title>{{ artinfo.art_tit }}</title>
+        <title>{{ article.art_tit }}</title>
     {% endblock %}
     {% block css %}
         <link href="{% static 'css/blogdet.css' %}" rel="stylesheet">
@@ -23,17 +23,17 @@
             <div class="col-sm-8 blog-main">
 
                 <div class="blog-post">
-                    <h2 class="blog-post-title">{{ artinfo.art_tit }}</h2>
-                    <p class="blog-post-meta">{{ artinfo.art_crtime }} by <a href="#">{{ artinfo.art_aut }}</a></p>
-
-                    <p>{{ artinfo.article }}</p>
+                    <h2 class="blog-post-title">{{ article.art_tit }}</h2>
+                    <p class="blog-post-meta">{{ article.article_time }} by <a href="#">{{ userinfo.nickname }}</a></p>
+                    <p>{{ article.art_itr }}</p>
+                    {{ article.article_content|safe }}
                     <hr>
                 </div><!-- /.blog-post -->
 
                 <nav>
                     <ul class="pager pull-center">
-                        <li><a href="{% url 'mypersonalblog:blogdet' artinfo.art_id|add:-1 %}">Previous</a></li>
-                        <li><a href="{% url 'mypersonalblog:blogdet' artinfo.art_id|add:1 %}">Next</a></li>
+                        <li><a href="{% url 'mypersonalblog:blogdet' article.a_id|add:-1 %}">Previous</a></li>
+                        <li><a href="{% url 'mypersonalblog:blogdet' article.a_id|add:1 %}">Next</a></li>
                     </ul>
                 </nav>
 

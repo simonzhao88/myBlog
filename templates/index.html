@@ -67,36 +67,34 @@
                 <div class="row featurette">
                     <div class="col-md-7">
                         <h4 class="featurette-heading">{{ artic.art_tit }} <span class="text-muted"></span></h4>
-                        <p class="lead">{{ artic.art_itr }}</p>
-                        <p><a class="btn btn-primary btn-lg" href="{% url 'mypersonalblog:blogdet' artic.art_id %}"
+                        <p class="lead">{{ artic.article_content }}</p>
+                        <p><a class="btn btn-primary btn-lg" href="{% url 'mypersonalblog:blogdet' artic.a_id %}"
                               role="button">阅读全文</a>
                         </p>
                     </div>
                     <div class="col-md-5">
                         <img class="featurette-image img-responsive center-block"
-                             data-src="{% static 'img/mm/111.jpg' %}"
-                             alt="day jokes">
+                             src="{% static 'img/mm/111.jpg' %}"
+                             alt="图片">
                     </div>
                 </div>
 
-                <hr class="featurette-divider">
             {% else %}
                 <div class="row featurette">
                     <div class="col-md-7 col-md-push-5">
                         <h4 class="featurette-heading">{{ artic.art_tit }} <span class="text-muted"></span></h4>
-                        <p class="lead">{{ artic.art_itr }}</p>
-                        <p><a class="btn btn-primary btn-lg" href="{% url 'mypersonalblog:blogdet' artic.art_id %}"
+                        <p class="lead">{{ artic.article_content }}</p>
+                        <p><a class="btn btn-primary btn-lg" href="{% url 'mypersonalblog:blogdet' artic.a_id %}"
                               role="button">阅读全文</a>
                         </p>
                     </div>
                     <div class="col-md-5 col-md-pull-7">
                         <img class="featurette-image img-responsive center-block"
-                             data-src="{% static 'img/mm/222.jpg' %}"
-                             alt="Generic placeholder image">
+                             src="{% static 'img/mm/111.jpg' %}"
+                             alt="图片">
                     </div>
                 </div>
                 </div>
-                <hr class="featurette-divider">
             {% endif %}
     {% endfor %}
 {% endblock %}

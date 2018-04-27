@@ -5,75 +5,206 @@
 #   * Make sure each ForeignKey has `on_delete` set to the desired behavior.
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
-from __future__ import unicode_literals
-
 from django.db import models
 
 
-class ArtInfo(models.Model):
-    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
-    art_id = models.IntegerField()
-    art_aut = models.CharField(max_length=15)
-    article = models.TextField()
-    art_tit = models.CharField(max_length=30)
-    art_crtime = models.DateField()
-
-    class Meta:
-        managed = False
-        db_table = 'art_info'
-
-
 class Article(models.Model):
-    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
-    userid = models.CharField(max_length=5)
-    art_id = models.IntegerField()
-    art_tit = models.TextField()
-    art_itr = models.TextField()
+    a_id = models.AutoField(primary_key=True)
+    userid = models.IntegerField()
+    art_tit = models.CharField(max_length=30)
+    art_itr = models.CharField(max_length=150)
     type_no = models.IntegerField()
     art_type = models.CharField(max_length=10)
+    article_tag = models.CharField(max_length=20)
+    article_time = models.DateTimeField()
+    modify_time = models.DateTimeField(blank=True, null=True)
+    article_click = models.IntegerField(default=0)
+    article_content = models.TextField()
 
     class Meta:
         managed = False
         db_table = 'article'
-        unique_together = (('id', 'art_id'),)
+
+
+class AuthGroup(models.Model):
+    name = models.CharField(unique=True, max_length=80)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_group'
+
+
+class AuthGroupPermissions(models.Model):
+    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
+    permission = models.ForeignKey('AuthPermission', models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_group_permissions'
+        unique_together = (('group', 'permission'),)
+
+
+class AuthPermission(models.Model):
+    name = models.CharField(max_length=255)
+    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING)
+    codename = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_permission'
+        unique_together = (('content_type', 'codename'),)
+
+
+class AuthUser(models.Model):
+    password = models.CharField(max_length=128)
+    last_login = models.DateTimeField(blank=True, null=True)
+    is_superuser = models.IntegerField()
+    username = models.CharField(unique=True, max_length=150)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=150)
+    email = models.CharField(max_length=254)
+    is_staff = models.IntegerField()
+    is_active = models.IntegerField()
+    date_joined = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'auth_user'
+
+
+class AuthUserGroups(models.Model):
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_user_groups'
+        unique_together = (('user', 'group'),)
+
+
+class AuthUserUserPermissions(models.Model):
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    permission = models.ForeignKey(AuthPermission, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_user_user_permissions'
+        unique_together = (('user', 'permission'),)
 
 
 class Comment(models.Model):
-    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
+    c_id = models.AutoField(primary_key=True)
     art_id = models.CharField(max_length=10)
     nickname = models.CharField(max_length=10)
     comment = models.TextField()
-    user_id = models.CharField(max_length=5)
+    userid = models.IntegerField()
 
     class Meta:
         managed = False
         db_table = 'comment'
-        unique_together = (('id', 'art_id'),)
+
+
+class DjangoAdminLog(models.Model):
+    action_time = models.DateTimeField()
+    object_id = models.TextField(blank=True, null=True)
+    object_repr = models.CharField(max_length=200)
+    action_flag = models.PositiveSmallIntegerField()
+    change_message = models.TextField()
+    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'django_admin_log'
+
+
+class DjangoContentType(models.Model):
+    app_label = models.CharField(max_length=100)
+    model = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'django_content_type'
+        unique_together = (('app_label', 'model'),)
+
+
+class DjangoMigrations(models.Model):
+    app = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    applied = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'django_migrations'
+
+
+class DjangoSession(models.Model):
+    session_key = models.CharField(primary_key=True, max_length=40)
+    session_data = models.TextField()
+    expire_date = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'django_session'
+
+
+class Friend(models.Model):
+    f_id = models.AutoField(primary_key=True)
+    userid = models.IntegerField()
+    friend_id = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'friend'
+
+
+class SecretMessage(models.Model):
+    secret_id = models.IntegerField(primary_key=True)
+    send_id = models.IntegerField()
+    receive_id = models.IntegerField()
+    message_topic = models.CharField(max_length=64)
+    message_content = models.CharField(max_length=255)
+
+    class Meta:
+        managed = False
+        db_table = 'secret_message'
 
 
 class SysUser(models.Model):
-    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
-    userid = models.IntegerField()
+    userid = models.AutoField(primary_key=True)
     username = models.CharField(max_length=15)
-    password = models.CharField(max_length=200)
+    password = models.CharField(max_length=100)
     isadmin = models.IntegerField(default=0)
 
     class Meta:
         managed = False
         db_table = 'sys_user'
-        unique_together = (('id', 'userid'),)
+
+
+class UserAttention(models.Model):
+    id = models.IntegerField(db_column='ID', primary_key=True)  # Field name made lowercase.
+    userid = models.IntegerField()
+    attention_id = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'user_attention'
 
 
 class UserInfo(models.Model):
-    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
-    userid = models.IntegerField()
+    userid = models.IntegerField(primary_key=True)
     user_tel = models.CharField(max_length=15, blank=True, null=True)
     user_eml = models.CharField(max_length=25, blank=True, null=True)
-    user_img = models.CharField(max_length=100, blank=True, null=True)
+    user_img = models.CharField(max_length=500, blank=True, null=True)
+    username = models.CharField(max_length=10)
     nickname = models.CharField(max_length=10)
-    user_gender = models.IntegerField(blank=True, null=True)
+    user_gender = models.IntegerField(default=1)
+    user_points = models.IntegerField()
+    user_lv = models.IntegerField()
+    reg_time = models.DateTimeField()
+    is_freeze = models.IntegerField(default=0)
+    user_description = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'user_info'
-        unique_together = (('id', 'nickname'),)

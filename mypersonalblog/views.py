@@ -1,10 +1,13 @@
+import re
+from datetime import datetime
+
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
 from .decoding import encrypt_password, enc, validate_password, dec
-from .models import Article, SysUser, UserInfo, ArtInfo
+from .models import Article, SysUser, UserInfo
 
 
 # Create your views here.
@@ -14,7 +17,6 @@ def login(request):
     :param request:
     :return:
     """
-    print(2141241)
     return render(request, 'login.html')
 
 
@@ -42,7 +44,9 @@ def index(request, user_id, userinfo):
     """
     # day_joke = Joke()
     # jokes = day_joke.get_joke()
-    artics = art_intr(request)
+    artics = art_intr(request)[:5]
+    for artic in artics:
+        artic.article_content = re.sub(r'<[^>]+>|[ ]|&nbsp;|&gt;|&lt;', '', artic.article_content)
     return render(request, 'index.html', {'artics': artics, 'user_id': user_id, 'userinfo': userinfo})
 
 
@@ -64,22 +68,21 @@ def art_intr(request):
     return Article.objects.all()
 
 
-@login_required
-def blogdet(request, art_id, user_id, userinfo):
+def blogdet(request, art_id):
     """
     博客详情页面并验证是否登录
     :param request:
     :param art_id: 文章id
-    :param user_id: 用户id
-    :param userinfo: 用户信息
     :return:
     """
-    artinfo = ArtInfo.objects.get(art_id=int(art_id))
-    article = Article.objects.get(art_id=int(art_id))
-    return render(request, 'blogdet.html', {'user_id': user_id,
-                                            'userinfo': userinfo,
-                                            'artinfo': artinfo,
-                                            'article': article, })
+    if request.session.get('user_id', ''):
+        user_id = request.session.get('user_id', '')
+        userinfo = UserInfo.objects.get(userid=user_id)
+    else:
+        user_id = ''
+        userinfo = ''
+    articles = Article.objects.get(a_id=art_id)
+    return render(request, 'blogdet.html', {'user_id': user_id, 'userinfo': userinfo, 'article': articles})
 
 
 @csrf_exempt
@@ -133,11 +136,16 @@ def registerVerify(request):
         nickname = request.POST['nickname']
         pwd = encrypt_password(password)
         password = dec(pwd)
+        reg_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         if SysUser.objects.filter(username=username):
             return HttpResponse('-1')
         else:
             SysUser.objects.create(username=username, password=password)
-            UserInfo.objects.create(user_tel=phone, user_eml=email, nickname=nickname, user_gender=gender)
+            userid = SysUser.objects.get(username=username).userid
+            user_points = 50
+            UserInfo.objects.create(user_tel=phone, user_eml=email, username=username, user_gender=gender,
+                                    userid=userid, user_points=user_points, user_lv=0, nickname=nickname,
+                                    reg_time=reg_time)
             return HttpResponse('1')
 
 
@@ -165,14 +173,31 @@ def writeblog(request, user_id, userinfo):
     return render(request, 'writeblog.html', {'user_id': user_id, 'userinfo': userinfo})
 
 
+@csrf_exempt
 def getarticle(request):
     """
     将文章数据写入数据库
-    修改文章数据
     :param request:
     :return:
     """
-    pass
+    if request.method == 'POST':
+        title = request.POST['title']
+        introduction = request.POST['introduction']
+        content = request.POST['content']
+        userid = request.session.get('user_id', '')
+        art_typeno = request.POST['articletypeno']
+        art_type = request.POST['articletype']
+        art_tag = request.POST['art_tag']
+        article_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        # UserInfo.objects.get(userid=userid).user_points + 10
+        userinfo = UserInfo.objects.get(userid=userid)
+        userinfo.user_points += 10
+        newarticle = Article(userid=userid, art_tit=title, art_itr=introduction, type_no=art_typeno,
+                             art_type=art_type, article_tag=art_tag, article_time=article_time,
+                             article_content=content)
+        newarticle.save()
+        userinfo.save()
+    return HttpResponse('1')
 
 
 @login_required
@@ -184,7 +209,8 @@ def articlectrl(request, user_id, userinfo):
     :param userinfo: 用户信息
     :return:
     """
-    return render(request, 'articlectrl.html', {'user_id': user_id, 'userinfo': userinfo})
+    articles = Article.objects.all()[:5]
+    return render(request, 'articlectrl.html', {'user_id': user_id, 'userinfo': userinfo, 'articles': articles})
 
 
 @login_required
