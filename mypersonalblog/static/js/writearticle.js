@@ -10,6 +10,7 @@ $(function () {
         $('#tag a.tag').text(function (index, content) {
             art_tag += (index === maxIndex) ? content : content + ',';
         });
+        var a_id = $('#articleid').val();
         var csrftoken = $('[name="csrfmiddlewaretoken"]').val();
         if (!title) {
             $('.error').html('请填写文章标题').show();
@@ -32,14 +33,14 @@ $(function () {
             return false;
         }
         $.ajaxSetup({
-            data: {csrfmiddlewaretoken: '{{ csrf_token }}'},
+            data: {csrfmiddlewaretoken: '{{ csrf_token }}'}
         });
         $.ajax({
             type: "POST",
-            url: 'getarticle',
+            url: '/usercenter/getarticle',
             data: {
                 title: title, introduction: introduction, content: content, articletypeno: article_typeno,
-                articletype: article_type, csrf: csrftoken, art_tag: art_tag
+                articletype: article_type, csrf: csrftoken, art_tag: art_tag, a_id: a_id
             },
             dataType: 'json',
             cache: true,
@@ -63,3 +64,8 @@ $(function () {
         $(this).toggleClass('tag');
     })
 });
+$(function () {
+    var typeno = $('#tpno').val();
+    $('#articletype').val(typeno);
+});
+

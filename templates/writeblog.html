@@ -51,7 +51,50 @@
                         </div>
                         <div class="w_main">
                             <form action="{% url 'mypersonalblog:getarticle' %}" method="post">
-                                <div class="article_form">
+                                {% csrf_token %}
+                                {% if article %}
+                                    <div class="article_form">
+                                        <label>文章标题：</label>
+                                        <input type="hidden" id="articleid" value="{{ article.a_id }}">
+                                        <input type="text" class="write" id="title" value="{{ article.art_tit }}">
+                                    </div>
+                                    <div class="article_form">
+                                        <label>文章简介：</label>
+                                        <input type="text" class="write" id="introduction"
+                                               value="{{ article.art_itr }}">
+                                    </div>
+                                    <div class="article_form">
+                                        <input type="hidden" value="{{ article.type_no }}" id="tpno">
+                                        <label>文章分类:</label>
+                                        <select class="articletype_w" id="articletype">
+                                            <option value="1">Python</option>
+                                            <option value="2">MySql</option>
+                                            <option value="3">JavaScript</option>
+                                            <option value="4">HTML</option>
+                                            <option value="5">CSS</option>
+                                        </select>
+                                    </div>
+                                    <div class="article_form">
+                                        <label>文章内容：</label>
+                                    </div>
+                                    <div class="article">
+                                        <div id="txtdiv">
+                                            {{ article.article_content|safe }}
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="val" name="content"/>
+                                    <div id="tag">
+                                        <input type="hidden" id="mtag" value="{{ article.article_tag|safe }}">
+                                        <label class="article_form">标签：</label>
+                                        <a type="button" name="python">python</a>
+                                        <a type="button" name="html">html</a>
+                                        <a type="button" name="css">css</a>
+                                    </div>
+                                    <div class="write_error">
+                                        <label class="error"></label>
+                                    </div>
+                                {% else %}
+                                    <div class="article_form">
                                     <label>文章标题：</label>
                                     <input type="text" class="write" id="title">
                                 </div>
@@ -86,6 +129,7 @@
                                 <div class="write_error">
                                     <label class="error"></label>
                                 </div>
+                                {% endif %}
                                 <div id="commitarticle">
                                     <input type="submit" value="提交">
                                 </div>
@@ -100,12 +144,12 @@
 {% block footjs %}
     <script src="{% static 'css/release/wangEditor.min.js' %}"></script>
     <script type="text/javascript">
-        var E = window.wangEditor
-        var editor2 = new E('#txtdiv')
-        editor2.create()
+        var E = window.wangEditor;
+        var editor2 = new E('#txtdiv');
+        editor2.create();
         document.getElementById('commitarticle').addEventListener('click', function () {
             // 读取 html
-            var content = editor2.txt.html()
+            var content = editor2.txt.html();
             document.getElementById('val').value = content
         }, false)
     </script>

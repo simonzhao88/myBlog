@@ -8,6 +8,7 @@
     {% endblock %}
     {% block css %}
         <link rel="stylesheet" href="{% static 'css/usercenter.css' %}">
+        <script src="{% static 'js/writearticle.js' %}"></script>
     {% endblock %}
 </head>
 <body>
@@ -33,7 +34,7 @@
                     <ul class="nav nav-pills nav-stacked" id="funclist">
                         <li id="myinfo" role="presentation"><a href="{% url 'mypersonalblog:usercenter' %}">我的资料</a>
                         </li>
-                        <li id="writeblog" role="presentation"><a href="{% url 'mypersonalblog:writeblog' %}">写博客</a>
+                        <li id="writeblog" role="presentation"><a href="{% url 'mypersonalblog:writeblog' 0 %}">写博客</a>
                         </li>
                         <li id="blogctrl" role="presentation" class="active"><a href="#">文章管理</a></li>
                         <li id="tagctrl" role="presentation"><a href="{% url 'mypersonalblog:tagctrl' %}">标签管理</a></li>
@@ -67,11 +68,16 @@
                             <li class="article_li">操作</li>
                         </ol>
                         {% for article in articles %}
+                            {#                            <input type="hidden" id="introduction" value="{{ article.art_itr }}">#}
+                            {#                            <input type="hidden" id="content" value="{{ article.article_content }}">#}
+                            {#                            <input type="hidden" id="article_typeno" value="{{ article.type_no }}">#}
+                            {#                            <input type="hidden" id="art_tag" value="{{ article.article_tag }}">#}
                             <ol class="article_ol">
                                 <li class="article_de article_li art_tle">{{ article.art_tit }}</li>
                                 <li class="article_de article_li">{{ article.userid }}</li>
                                 <li class="article_de article_li">{{ article.article_click }}</li>
-                                <li class="article_de article_li"><a>修改</a><a>删除</a></li>
+                                <li class="article_de article_li"><a
+                                        href="{% url 'mypersonalblog:writeblog' article.a_id %}">修改</a><a>删除</a></li>
                             </ol>
                         {% endfor %}
                     </div>

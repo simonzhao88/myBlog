@@ -150,7 +150,7 @@ def registerVerify(request):
 
 
 @login_required
-def usercenter(request, user_id, userinfo):
+def usercenter(request, user_id, userinfo, *args):
     """
     跳转用户中心并验证登录
     :param request:
@@ -161,8 +161,7 @@ def usercenter(request, user_id, userinfo):
     return render(request, 'usercenter.html', {'user_id': user_id, 'userinfo': userinfo})
 
 
-@login_required
-def writeblog(request, user_id, userinfo):
+def writeblog(request, a_id):
     """
     渲染写博客页面
     :param request:
@@ -170,7 +169,17 @@ def writeblog(request, user_id, userinfo):
     :param userinfo: 用户信息
     :return:
     """
-    return render(request, 'writeblog.html', {'user_id': user_id, 'userinfo': userinfo})
+    if request.session.get('user_id', ''):
+        user_id = request.session.get('user_id', '')
+        userinfo = UserInfo.objects.get(userid=user_id)
+    else:
+        user_id = ''
+        userinfo = ''
+    if a_id == '0':
+        return render(request, 'writeblog.html', {'user_id': user_id, 'userinfo': userinfo})
+    article = Article.objects.get(a_id=a_id)
+    return render(request, 'writeblog.html', {'user_id': user_id, 'userinfo': userinfo, 'article': article})
+
 
 
 @csrf_exempt
@@ -189,19 +198,18 @@ def getarticle(request):
         art_type = request.POST['articletype']
         art_tag = request.POST['art_tag']
         article_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        # UserInfo.objects.get(userid=userid).user_points + 10
-        userinfo = UserInfo.objects.get(userid=userid)
-        userinfo.user_points += 10
-        newarticle = Article(userid=userid, art_tit=title, art_itr=introduction, type_no=art_typeno,
-                             art_type=art_type, article_tag=art_tag, article_time=article_time,
-                             article_content=content)
-        newarticle.save()
-        userinfo.save()
+        # userinfo = UserInfo.objects.get(userid=userid)
+        # userinfo.user_points += 10
+        # newarticle = Article(userid=userid, art_tit=title, art_itr=introduction, type_no=art_typeno,
+        #                      art_type=art_type, article_tag=art_tag, article_time=article_time,
+        #                      article_content=content)
+        # newarticle.save()
+        # userinfo.save()
     return HttpResponse('1')
 
 
 @login_required
-def articlectrl(request, user_id, userinfo):
+def articlectrl(request, user_id, userinfo, *args):
     """
     渲染文章管理界面
     :param request:
@@ -211,7 +219,6 @@ def articlectrl(request, user_id, userinfo):
     """
     articles = Article.objects.all()[:5]
     return render(request, 'articlectrl.html', {'user_id': user_id, 'userinfo': userinfo, 'articles': articles})
-
 
 @login_required
 def tagctrl(request, user_id, userinfo):
