@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load pagetag %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +9,7 @@
     {% endblock %}
     {% block css %}
         <link rel="stylesheet" href="{% static 'css/usercenter.css' %}">
+        <script src="{% static 'js/writearticle.js' %}"></script>
     {% endblock %}
 </head>
 <body>
@@ -35,9 +37,11 @@
                         </li>
                         <li id="writeblog" role="presentation"><a href="{% url 'mypersonalblog:writeblog' 0 %}">写博客</a>
                         </li>
-                        <li id="blogctrl" role="presentation"><a href="{% url 'mypersonalblog:articlectrl' %}">文章管理</a>
+                        <li id="blogctrl" role="presentation"><a
+                                href="{% url 'mypersonalblog:articlectrl' '?page=1' %}">文章管理</a>
                         </li>
-                        <li id="tagctrl" role="presentation" class="active"><a href="#">标签管理</a></li>
+                        <li id="tagctrl" role="presentation" class="active"><a
+                                href="{% url 'mypersonalblog:tagctrl' %}">标签管理</a></li>
                         <li id="isadmin" role="presentation"><a href="{% url 'mypersonalblog:adminctrl' %}">权限管理</a>
                         </li>
                         <li id="webmsg" role="presentation"><a href="#">站内信</a></li>
@@ -50,6 +54,52 @@
                             <span class="f1"></span>
                             <p class="f1">标签管理</p>
                         </div>
+                    </div>
+                    <div class="articlectrl">
+                        <ol class="article_ol">
+                            <li class="article_li">标签名</li>
+                            <li class="article_li pull-right">操作</li>
+                        </ol>
+                        {% for tag in tags %}
+                            <ol class="article_ol" id="article_ol">
+                                <li class="article_de article_li ">{{ tag.tagname }}</li>
+                                <li class="article_de article_li pull-right">
+                                    <a class="del_tag" name="{{ tag.t_id }}">删除</a>
+                                </li>
+                            </ol>
+                        {% endfor %}
+                    </div>
+                    <nav aria-label="..." class="split">
+                        <ul class="pagination">
+                            {% if tags.has_previous %}
+                                <li><a href="?page={{ tags.previous_page_number }}" aria-label="Previous"><span
+                                        aria-hidden="true">&laquo;</span></a></li>
+                            {% endif %}
+                            {% for pg in tags.paginator.page_range %}
+                                {% circle_page tags.number pg %}
+                            {% endfor %}
+                            {% if tags.has_next %}
+                                <li>
+                                    <a href="?page={{ tags.next_page_number }}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                    <div id="insert_tag">
+                        <label for="taginsert">标签名：</label>
+                        <input type="text" class="mtag">
+                        <button class="modifytag">确认</button>
+                        <button class="closem">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="terror">
+                        <label class="thint"></label>
+                    </div>
+                    <div id="tag_button">
+                        <input type="button" value="新增">
                     </div>
                 </div>
             </div>

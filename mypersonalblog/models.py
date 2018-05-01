@@ -208,3 +208,12 @@ class UserInfo(models.Model):
     class Meta:
         managed = False
         db_table = 'user_info'
+
+
+class Articletag(models.Model):
+    t_id = models.AutoField(primary_key=True)
+    tagname = models.CharField(max_length=15)
+
+    class Meta:
+        managed = False
+        db_table = 'articletag'

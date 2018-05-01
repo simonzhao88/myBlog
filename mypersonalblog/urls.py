@@ -10,14 +10,15 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('register/registerVerify/', views.registerVerify, name='registerVerify'),
     path('logout/', views.logout, name='logout'),
-    re_path('blogdet/(\d+)/', views.blogdet, name='blogdet'),
+    re_path('blogdet/(\d+)/', views.blog_det, name='blogdet'),
     path('usercenter/myinfo', views.usercenter, name='usercenter'),
     re_path('usercenter/writeblog/(\d+)', views.writeblog, name='writeblog'),
-    path('usercenter/articlectrl', views.articlectrl, name='articlectrl'),
+    re_path('usercenter/articlectrl/(\?page=\d+)', views.articlectrl, name='articlectrl'),
     path('usercenter/tagctrl', views.tagctrl, name='tagctrl'),
     path('usercenter/adminctrl', views.adminctrl, name='adminctrl'),
-    path('usercenter/getarticle', views.getarticle, name='getarticle'),
-    # path('usercenter/modifyartic', views.modifyartic, name='modifyartic'),
+    path('usercenter/getarticle', views.get_article, name='getarticle'),
+    path('usercenter/del_article', views.del_article, name='del_article'),
+    path('usercenter/del_tag', views.del_tag, name='del_tag'),
 ]
 
 app_name = 'mypersonalblog'

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load pagetag %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,7 +37,8 @@
                         </li>
                         <li id="writeblog" role="presentation"><a href="{% url 'mypersonalblog:writeblog' 0 %}">写博客</a>
                         </li>
-                        <li id="blogctrl" role="presentation" class="active"><a href="#">文章管理</a></li>
+                        <li id="blogctrl" role="presentation" class="active"><a
+                                href="{% url 'mypersonalblog:articlectrl' '?page=1' %}">文章管理</a></li>
                         <li id="tagctrl" role="presentation"><a href="{% url 'mypersonalblog:tagctrl' %}">标签管理</a></li>
                         <li id="isadmin" role="presentation"><a href="#">权限管理</a></li>
                         <li id="webmsg" role="presentation"><a href="#">站内信</a></li>
@@ -67,31 +69,35 @@
                             <li class="article_li">阅读量</li>
                             <li class="article_li">操作</li>
                         </ol>
-                        {% for article in articles %}
-                            {#                            <input type="hidden" id="introduction" value="{{ article.art_itr }}">#}
-                            {#                            <input type="hidden" id="content" value="{{ article.article_content }}">#}
-                            {#                            <input type="hidden" id="article_typeno" value="{{ article.type_no }}">#}
-                            {#                            <input type="hidden" id="art_tag" value="{{ article.article_tag }}">#}
-                            <ol class="article_ol">
+                        {% for article in art_list %}
+                            <ol class="article_ol" id="article_ol">
                                 <li class="article_de article_li art_tle">{{ article.art_tit }}</li>
-                                <li class="article_de article_li">{{ article.userid }}</li>
+                                <li class="article_de article_li">{% author article.userid %}</li>
                                 <li class="article_de article_li">{{ article.article_click }}</li>
-                                <li class="article_de article_li"><a
-                                        href="{% url 'mypersonalblog:writeblog' article.a_id %}">修改</a><a>删除</a></li>
+                                <li class="article_de article_li">
+                                    <a href="{% url 'mypersonalblog:writeblog' article.a_id %}">修改</a>
+                                    <a class="del_art" name="{{ article.a_id }}">删除</a>
+                                </li>
                             </ol>
                         {% endfor %}
                     </div>
+                    <label class="hint"></label>
                     <nav aria-label="..." class="split">
                         <ul class="pagination">
-                            <li class="disabled"><a href="#" aria-label="Previous"><span
+                            {% if art_list.has_previous %}
+                                <li><a href="?page={{ art_list.previous_page_number }}" aria-label="Previous"><span
                                     aria-hidden="true">&laquo;</span></a></li>
-                            <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                            <li><a href="#">2 <span class="sr-only">(current)</span></a></li>
-                            <li><a href="#">3 <span class="sr-only">(current)</span></a></li>
-                            <li><a href="#">4 <span class="sr-only">(current)</span></a></li>
-                            <li><a href="#">5 <span class="sr-only">(current)</span></a></li>
-                            <li><a href="#" aria-label="Next"><span
-                                    aria-hidden="true">&raquo;</span></a></li>
+                            {% endif %}
+                            {% for pg in art_list.paginator.page_range %}
+                                {% circle_page art_list.number pg %}
+                            {% endfor %}
+                            {% if art_list.has_next %}
+                                <li>
+                                    <a href="?page={{ art_list.next_page_number }}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            {% endif %}
                         </ul>
                     </nav>
                 </div>

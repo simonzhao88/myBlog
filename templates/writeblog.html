@@ -33,8 +33,10 @@
                     <ul class="nav nav-pills nav-stacked" id="funclist">
                         <li id="myinfo" role="presentation"><a href="{% url 'mypersonalblog:usercenter' %}">我的资料</a>
                         </li>
-                        <li id="writeblog" role="presentation" class="active"><a href="#">写博客</a></li>
-                        <li id="blogctrl" role="presentation"><a href="{% url 'mypersonalblog:articlectrl' %}">文章管理</a>
+                        <li id="writeblog" role="presentation" class="active"><a
+                                href="{% url 'mypersonalblog:writeblog' 0 %}">写博客</a></li>
+                        <li id="blogctrl" role="presentation"><a
+                                href="{% url 'mypersonalblog:articlectrl' '?page=1' %}">文章管理</a>
                         </li>
                         <li id="tagctrl" role="presentation"><a href="{% url 'mypersonalblog:tagctrl' %}">标签管理</a></li>
                         <li id="isadmin" role="presentation"><a href="{% url 'mypersonalblog:adminctrl' %}">权限管理</a>
@@ -95,40 +97,40 @@
                                     </div>
                                 {% else %}
                                     <div class="article_form">
-                                    <label>文章标题：</label>
-                                    <input type="text" class="write" id="title">
-                                </div>
-                                <div class="article_form">
-                                    <label>文章简介：</label>
-                                    <input type="text" class="write" id="introduction">
-                                </div>
-                                <div class="article_form">
-                                    <label>文章分类:</label>
-                                    <select class="articletype_w" id="articletype">
-                                        <option value="1">Python</option>
-                                        <option value="2">MySql</option>
-                                        <option value="3">JavaScript</option>
-                                        <option value="4">HTML</option>
-                                        <option value="5">CSS</option>
-                                    </select>
-                                </div>
-                                <div class="article_form">
-                                    <label>文章内容：</label>
-                                </div>
-                                <div class="article">
-                                    <div id="txtdiv">
+                                        <label>文章标题：</label>
+                                        <input type="text" class="write" id="title">
                                     </div>
-                                </div>
-                                <input type="hidden" id="val" name="content"/>
-                                <div id="tag">
-                                    <label class="article_form">标签：</label>
-                                    <a type="button" name="python">python</a>
-                                    <a type="button" name="html">html</a>
-                                    <a type="button" name="css">css</a>
-                                </div>
-                                <div class="write_error">
-                                    <label class="error"></label>
-                                </div>
+                                    <div class="article_form">
+                                        <label>文章简介：</label>
+                                        <input type="text" class="write" id="introduction">
+                                    </div>
+                                    <div class="article_form">
+                                        <label>文章分类:</label>
+                                        <select class="articletype_w" id="articletype">
+                                            <option value="1">Python</option>
+                                            <option value="2">MySql</option>
+                                            <option value="3">JavaScript</option>
+                                            <option value="4">HTML</option>
+                                            <option value="5">CSS</option>
+                                        </select>
+                                    </div>
+                                    <div class="article_form">
+                                        <label>文章内容：</label>
+                                    </div>
+                                    <div class="article">
+                                        <div id="txtdiv">
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="val" name="content"/>
+                                    <div id="tag">
+                                        <label class="article_form">标签：</label>
+                                        {% for tag in tags %}
+                                            <a type="button" name="{{ tag.tagname }}">{{ tag.tagname }}</a>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="write_error">
+                                        <label class="error"></label>
+                                    </div>
                                 {% endif %}
                                 <div id="commitarticle">
                                     <input type="submit" value="提交">

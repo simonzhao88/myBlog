@@ -1,13 +1,14 @@
 import re
 from datetime import datetime
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
-from .decoding import encrypt_password, enc, validate_password, dec
-from .models import Article, SysUser, UserInfo
+from mypersonalblog.templatetags.decoding import encrypt_password, enc, validate_password, dec
+from .models import Article, SysUser, UserInfo, Articletag
 
 
 # Create your views here.
@@ -21,7 +22,13 @@ def login(request):
 
 
 def login_required(func):
-    def check_login(request):
+    """
+    验证登陆的的装饰器
+    :param func:
+    :return:
+    """
+
+    def check_login(request, *args):
         if request.session.get('user_id', ''):
             user_id = request.session.get('user_id', '')
             userinfo = UserInfo.objects.get(userid=user_id)
@@ -68,7 +75,7 @@ def art_intr(request):
     return Article.objects.all()
 
 
-def blogdet(request, art_id):
+def blog_det(request, art_id):
     """
     博客详情页面并验证是否登录
     :param request:
@@ -150,7 +157,7 @@ def registerVerify(request):
 
 
 @login_required
-def usercenter(request, user_id, userinfo, *args):
+def usercenter(request, user_id, userinfo):
     """
     跳转用户中心并验证登录
     :param request:
@@ -165,8 +172,7 @@ def writeblog(request, a_id):
     """
     渲染写博客页面
     :param request:
-    :param user_id: 用户id
-    :param userinfo: 用户信息
+    :param a_id: 文章id
     :return:
     """
     if request.session.get('user_id', ''):
@@ -175,17 +181,19 @@ def writeblog(request, a_id):
     else:
         user_id = ''
         userinfo = ''
+    tags = Articletag.objects.all()
     if a_id == '0':
-        return render(request, 'writeblog.html', {'user_id': user_id, 'userinfo': userinfo})
+        return render(request, 'writeblog.html', {'user_id': user_id, 'userinfo': userinfo, 'tags': tags})
     article = Article.objects.get(a_id=a_id)
-    return render(request, 'writeblog.html', {'user_id': user_id, 'userinfo': userinfo, 'article': article})
-
+    return render(request, 'writeblog.html', {'user_id': user_id, 'userinfo': userinfo, 'article': article,
+                                              'tags': tags})
 
 
 @csrf_exempt
-def getarticle(request):
+def get_article(request):
     """
-    将文章数据写入数据库
+    新建和修改文章
+    并将文章数据写入数据库
     :param request:
     :return:
     """
@@ -198,18 +206,31 @@ def getarticle(request):
         art_type = request.POST['articletype']
         art_tag = request.POST['art_tag']
         article_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        # userinfo = UserInfo.objects.get(userid=userid)
-        # userinfo.user_points += 10
-        # newarticle = Article(userid=userid, art_tit=title, art_itr=introduction, type_no=art_typeno,
-        #                      art_type=art_type, article_tag=art_tag, article_time=article_time,
-        #                      article_content=content)
-        # newarticle.save()
-        # userinfo.save()
-    return HttpResponse('1')
+        try:
+            a_id = request.POST['a_id']
+            marticle = Article.objects.get(a_id=a_id)
+            marticle.art_tit = title
+            marticle.art_itr = introduction
+            marticle.article_content = content
+            marticle.type_no = art_typeno
+            marticle.art_type = art_type
+            marticle.article_tag = art_tag
+            marticle.modify_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            marticle.save()
+            return HttpResponse('1')
+        except ValueError:
+            userinfo = UserInfo.objects.get(userid=userid)
+            userinfo.user_points += 10
+            newarticle = Article(userid=userid, art_tit=title, art_itr=introduction, type_no=art_typeno,
+                                 art_type=art_type, article_tag=art_tag, article_time=article_time,
+                                 article_content=content)
+            newarticle.save()
+            userinfo.save()
+            return HttpResponse('1')
 
 
 @login_required
-def articlectrl(request, user_id, userinfo, *args):
+def articlectrl(request, user_id, userinfo):
     """
     渲染文章管理界面
     :param request:
@@ -217,9 +238,32 @@ def articlectrl(request, user_id, userinfo, *args):
     :param userinfo: 用户信息
     :return:
     """
-    articles = Article.objects.all()[:5]
-    return render(request, 'articlectrl.html', {'user_id': user_id, 'userinfo': userinfo, 'articles': articles})
+    if request.method == 'GET':
+        articles = Article.objects.all()
+        pageinator = Paginator(articles, 5)
+        try:
+            page = request.GET.get('page')
+            articles = pageinator.page(page)
+        except PageNotAnInteger:
+            articles = pageinator.page(1)
+        except EmptyPage:
+            articles = pageinator.page(pageinator.num_pages)
+        return render(request, 'articlectrl.html', {'user_id': user_id, 'userinfo': userinfo, 'art_list': articles})
 
+
+@csrf_exempt
+def del_article(request):
+    """
+    文章删除
+    :param request:
+    :return:
+    """
+    a_id = request.POST['a_id']
+    Article.objects.filter(a_id=a_id).delete()
+    return HttpResponse('1')
+
+
+@csrf_exempt
 @login_required
 def tagctrl(request, user_id, userinfo):
     """
@@ -230,7 +274,30 @@ def tagctrl(request, user_id, userinfo):
     :param userinfo: 用户信息
     :return:
     """
-    return render(request, 'tagctrl.html', {'user_id': user_id, 'userinfo': userinfo})
+    if request.method == 'GET':
+        articletags = Articletag.objects.all()
+        pageinator = Paginator(articletags, 5)
+        try:
+            page = request.GET.get('page')
+            tags = pageinator.page(page)
+        except PageNotAnInteger:
+            tags = pageinator.page(1)
+        except EmptyPage:
+            tags = pageinator.page(pageinator.num_pages)
+        return render(request, 'tagctrl.html', {'user_id': user_id, 'userinfo': userinfo, 'tags': tags})
+    elif request.method == 'POST':
+        tagname = request.POST['tagname']
+        data = Articletag(tagname=tagname)
+        data.save()
+        return HttpResponse('1')
+
+
+@csrf_exempt
+def del_tag(request):
+    t_id = request.POST['t_id']
+    print(t_id)
+    Articletag.objects.filter(t_id=t_id).delete()
+    return HttpResponse('1')
 
 
 @login_required

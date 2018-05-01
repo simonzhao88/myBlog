@@ -30,7 +30,11 @@ body {
 .btn-primary:hover {
     color: #fff;
     background-color: #5a5a5a;
-    border-color: #101010;
+    border-color: gray();
+}
+
+.btn-primary {
+    border-color: gray;
 }
 /* CUSTOMIZE THE NAVBARs
 -------------------------------------------------- */
