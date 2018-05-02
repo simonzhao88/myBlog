@@ -1,6 +1,7 @@
 import re
 from datetime import datetime
 
+import math
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
@@ -40,6 +41,21 @@ def login_required(func):
     return check_login
 
 
+def is_upgrade(userid):
+    """
+    验证是否升级
+    :param userid: 用户id
+    :return:
+    """
+    user = UserInfo.objects.get(userid=userid)
+    points = user.user_points
+    if 100 <= points < 500:
+        user.user_lv = math.floor(points / 100)
+    else:
+        user.user_lv += math.floor(points / 200)
+    user.save()
+
+
 @login_required
 def index(request, user_id, userinfo):
     """
@@ -51,6 +67,7 @@ def index(request, user_id, userinfo):
     """
     # day_joke = Joke()
     # jokes = day_joke.get_joke()
+    is_upgrade(user_id)
     artics = art_intr(request)[:5]
     for artic in artics:
         artic.article_content = re.sub(r'<[^>]+>|[ ]|&nbsp;|&gt;|&lt;', '', artic.article_content)
@@ -165,6 +182,7 @@ def usercenter(request, user_id, userinfo):
     :param userinfo: 用户信息
     :return:
     """
+    is_upgrade(user_id)
     return render(request, 'usercenter.html', {'user_id': user_id, 'userinfo': userinfo})
 
 
@@ -221,6 +239,7 @@ def get_article(request):
         except ValueError:
             userinfo = UserInfo.objects.get(userid=userid)
             userinfo.user_points += 10
+            is_upgrade(userid)
             newarticle = Article(userid=userid, art_tit=title, art_itr=introduction, type_no=art_typeno,
                                  art_type=art_type, article_tag=art_tag, article_time=article_time,
                                  article_content=content)

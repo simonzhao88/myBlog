@@ -40,5 +40,8 @@ def author(userid):
 
 @register.simple_tag
 def divi(points, lv):
-    point = points - lv * 100
-    return points
+    if 100 <= points < 500:
+        point = points - lv * 100
+    else:
+        point = points - lv * 200
+    return point

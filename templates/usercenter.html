@@ -31,8 +31,10 @@
                         </p>
                     </div>
                     <ul class="nav nav-pills nav-stacked" id="funclist">
-                        <li id="myinfo" role="presentation" class="active"><a
-                                href="{% url 'mypersonalblog:usercenter' %}">我的资料</a></li>
+                        <li id="myinfo" role="presentation" class="active">
+                            <a href="{% url 'mypersonalblog:usercenter' %}"><span class="glyphicon glyphicon-user"
+                                                                                  aria-hidden="true"></span> 我的资料</a>
+                        </li>
                         <li id="writeblog" role="presentation"><a href="{% url 'mypersonalblog:writeblog' 0 %}">写博客</a>
                         </li>
                         <li id="blogctrl" role="presentation"><a
@@ -71,6 +73,7 @@
                                                 <span class="user_level">Lv{{ userinfo.user_lv }}</span>
                                                 <div class="progress">
                                                     <div class="progress-bar bar" role="progressbar"
+                                                         style="min-width:2em"
                                                          aria-valuenow="{% divi userinfo.user_points userinfo.user_lv %}"
                                                          aria-valuemin="0" aria-valuemax="100"
                                                          style="width: {% divi userinfo.user_points userinfo.user_lv %}%;">
