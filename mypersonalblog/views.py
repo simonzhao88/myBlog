@@ -1,7 +1,7 @@
+import math
 import re
 from datetime import datetime
 
-import math
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
@@ -28,7 +28,6 @@ def login_required(func):
     :param func:
     :return:
     """
-
     def check_login(request, *args):
         if request.session.get('user_id', ''):
             user_id = request.session.get('user_id', '')
@@ -67,7 +66,8 @@ def index(request, user_id, userinfo):
     """
     # day_joke = Joke()
     # jokes = day_joke.get_joke()
-    is_upgrade(user_id)
+    if user_id:
+        is_upgrade(user_id)
     artics = art_intr(request)[:5]
     for artic in artics:
         artic.article_content = re.sub(r'<[^>]+>|[ ]|&nbsp;|&gt;|&lt;', '', artic.article_content)
@@ -184,6 +184,11 @@ def usercenter(request, user_id, userinfo):
     """
     is_upgrade(user_id)
     return render(request, 'usercenter.html', {'user_id': user_id, 'userinfo': userinfo})
+
+
+@login_required
+def modify_tel(request, user_id, userinfo):
+    return render(request, 'modifytel.html', {'user_id': user_id, 'userinfo': userinfo})
 
 
 def writeblog(request, a_id):

@@ -73,10 +73,9 @@
                                                 <span class="user_level">Lv{{ userinfo.user_lv }}</span>
                                                 <div class="progress">
                                                     <div class="progress-bar bar" role="progressbar"
-                                                         style="min-width:2em"
                                                          aria-valuenow="{% divi userinfo.user_points userinfo.user_lv %}"
                                                          aria-valuemin="0" aria-valuemax="100"
-                                                         style="width: {% divi userinfo.user_points userinfo.user_lv %}%;">
+                                                         style="width: {% divi userinfo.user_points userinfo.user_lv %}%;min-width:2em;">
                                                         {% divi userinfo.user_points userinfo.user_lv %}%
                                                     </div>
                                                 </div>
@@ -100,7 +99,8 @@
                                             <p class="user_phonenum user_infoshow">手机已绑定</p>
                                             <p class="info_tips">{{ userinfo.user_tel }}</p>
                                         </div>
-                                        <a href="#" class="user_check_link updateMobile f1 checkphone">修改手机</a>
+                                        <a href="{% url 'mypersonalblog:modify_tel' %}"
+                                           class="user_check_link updateMobile f1 checkphone">修改手机</a>
                                     </li>
                                     <li class="user_check_detial f1">
                                         <div class="user_check_message f1">

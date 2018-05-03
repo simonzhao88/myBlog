@@ -123,6 +123,8 @@ $(function () {
             success: function (data) {
                 if (data == 1) {
                     $('.thint').html('新增成功!').show(100).delay(5000).hide(100);
+                    $('.mtag').val('');
+                    $('.mtag').focus();
                 }
                 if (data == -1) {
                     $('.thint').html('新增失败，请重试！').show(100).delay(5000).hide(100);

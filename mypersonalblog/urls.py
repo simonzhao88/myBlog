@@ -12,6 +12,7 @@ urlpatterns = [
     path('logout/', views.logout, name='logout'),
     re_path('blogdet/(\d+)/', views.blog_det, name='blogdet'),
     path('usercenter/myinfo', views.usercenter, name='usercenter'),
+    path('usercenter/modifytel', views.modify_tel, name='modify_tel'),
     re_path('usercenter/writeblog/(\d+)', views.writeblog, name='writeblog'),
     re_path('usercenter/articlectrl/(\?page=\d+)', views.articlectrl, name='articlectrl'),
     path('usercenter/tagctrl', views.tagctrl, name='tagctrl'),

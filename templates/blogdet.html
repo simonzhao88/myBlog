@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load pagetag %}
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -24,7 +25,8 @@
 
                 <div class="blog-post">
                     <h2 class="blog-post-title">{{ article.art_tit }}</h2>
-                    <p class="blog-post-meta">{{ article.article_time }} by <a href="#">{{ userinfo.nickname }}</a></p>
+                    <p class="blog-post-meta">{{ article.article_time }} by <a href="#">{% author article.userid %}</a>
+                    </p>
                     <p>{{ article.art_itr }}</p>
                     {{ article.article_content|safe }}
                     <hr>

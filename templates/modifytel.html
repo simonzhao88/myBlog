@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load pagetag %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block title %}
+        <title>我的资料-修改手机号</title>
+    {% endblock %}
+    {% block css %}
+        <link rel="stylesheet" href="{% static 'css/usercenter.css' %}">
+    {% endblock %}
+</head>
+{% block main %}
+    <div id="wrap" class="clearfix">
+        <div class="live_wrap clearfix">
+            <div class="u_header">
+                <h1 class="f1">个人中心</h1>
+            </div>
+            <div class="u_main clearfix">
+                <nav class="u_nav">
+                    <div class="photo">
+                        <p>
+                            <img class="img-circle" src="{% static 'img/0001.jpg' %}">
+                        </p>
+                        <p>
+                            <a href="#">0
+                            </a>关注
+                            <a href="#">0
+                            </a>粉丝
+                        </p>
+                    </div>
+                    <ul class="nav nav-pills nav-stacked" id="funclist">
+                        <li id="myinfo" role="presentation" class="active">
+                            <a href="{% url 'mypersonalblog:usercenter' %}"><span class="glyphicon glyphicon-user"
+                                                                                  aria-hidden="true"></span> 我的资料</a>
+                        </li>
+                        <li id="writeblog" role="presentation"><a href="{% url 'mypersonalblog:writeblog' 0 %}">写博客</a>
+                        </li>
+                        <li id="blogctrl" role="presentation"><a
+                                href="{% url 'mypersonalblog:articlectrl' '?page=1' %}">文章管理</a></li>
+                        <li id="tagctrl" role="presentation"><a href="{% url 'mypersonalblog:tagctrl' %}">标签管理</a></li>
+                        <li id="isadmin" role="presentation"><a href="{% url 'mypersonalblog:adminctrl' %}">权限管理</a>
+                        </li>
+                        <li id="webmsg" role="presentation"><a href="#">站内信</a></li>
+                        <li id="mycolloct" role="presentation"><a href="#">我的收藏</a></li>
+                    </ul>
+                </nav>
+                <div id="content" class="u_mainbody" style="overflow: inherit">
+                    <div class="user_myprofile user_info_page">
+                        <div class="togglebtn clearfix" id="js_tab_ul">
+                            <span class="f1"></span>
+                            <p class="f1">
+                                修改手机号
+                            </p>
+                        </div>
+                        <div id="modifytel">
+                            <div id="tip">
+                                <p>您正在为账号<span>{{ userinfo.nickname }}</span>修改手机号，请选择身份验证方式</p>
+                            </div>
+                            <div id="choosetel">
+
+                            </div>
+                            <div id="choosemail">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+</html>
