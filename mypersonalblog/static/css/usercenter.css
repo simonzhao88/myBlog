@@ -219,29 +219,49 @@ div {
 }
 
 #modifytel {
-    background-color: #f5f5f5;
+    width: 664px;
     margin: 0 auto;
 }
 
 #choosetel, #choosemail {
     float: left;
     width: 320px;
-    height: 128px;
+    height: 300px;
     margin: 24px 5px 0 5px;
     padding-top: 180px;
     text-align: center;
     line-height: 26px;
     border: 1px solid #ebebeb;
     border-radius: 6px;
-    background-color: #fff;
+    background-color: #f5f5f5;
 }
 
-#choosetel {
-
+.phone {
+    background: url("../img/phone.png") center 30px no-repeat;
 }
 
+.email {
+    background: url("../img/email.png") center 30px no-repeat;
+}
 
+.modtela {
+    display: inline-block;
+    height: 35px;
+    line-height: 35px;
+    margin-top: 12px;
+    padding: 0 22px;
+    text-align: center;
+    color: #fff;
+    background-color: #555555;
+}
 
+a, a:link, a:hover, a:visited, a:active {
+    text-decoration: none;
+}
+
+.fs-16 {
+    font-size: 16px;
+}
 
 .w_main .article_form {
     margin: 10px 0 20px 50px;
