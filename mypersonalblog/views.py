@@ -124,8 +124,6 @@ def loginVerify(request):
             if user.username == username and validate_password(enc(user.password), password):
                 request.session['user_id'] = user.userid
                 request.session.set_expiry(0)
-                # user_list = SysUser.objects.all()
-                # context = {'user_list': user_list}
                 return HttpResponse(1)
         return HttpResponse(-1)
     else:
@@ -189,6 +187,31 @@ def usercenter(request, user_id, userinfo):
 @login_required
 def modify_tel(request, user_id, userinfo):
     return render(request, 'modifytel.html', {'user_id': user_id, 'userinfo': userinfo})
+
+
+@login_required
+def modify_pwd(request, user_id, userinfo):
+    return render(request, 'modifypwd.html', {'user_id': user_id, 'userinfo': userinfo})
+
+
+@csrf_exempt
+@login_required
+def change_pwd(request, user_id, userinfo):
+    oldpwd = request.POST['oldpwd']
+    newpwd = request.POST['newpwd']
+    renewpwd = request.POST['renewpwd']
+    opassword = SysUser.objects.get(userid=user_id).password
+    if validate_password(enc(opassword), oldpwd):
+        print(newpwd)
+        password = dec(encrypt_password(newpwd))
+        print(password)
+        # SysUser.objects.get(userid=user_id).password = password
+        return HttpResponse('1')
+    elif newpwd != renewpwd:
+        return HttpResponse('0')
+    else:
+        return HttpResponse('-1')
+
 
 
 def writeblog(request, a_id):

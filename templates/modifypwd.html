@@ -9,6 +9,7 @@
     {% endblock %}
     {% block css %}
         <link rel="stylesheet" href="{% static 'css/usercenter.css' %}">
+        <script src="{% static 'js/writearticle.js' %}"></script>
     {% endblock %}
 </head>
 {% block main %}
@@ -51,24 +52,33 @@
                         <div class="togglebtn clearfix" id="js_tab_ul">
                             <span class="f1"></span>
                             <p class="f1">
-                            <p class="f1">
-                                您的位置：<a href="{% url 'mypersonalblog:usercenter' %}">我的资料</a>>修改手机号
+                                您的位置：<a href="{% url 'mypersonalblog:usercenter' %}">我的资料</a>>修改密码
                             </p>
                         </div>
-                        <div id="modifytel" class="clearfix">
+                        <div id="changepwd" class="clearfix">
                             <div id="tip">
-                                <p>您正在为账号<strong>{{ userinfo.nickname }}</strong>修改手机号，请选择身份验证方式</p>
+                                {#                                <p>为了您的账号安全，请先验证所绑定的手机或邮箱</p>#}
                             </div>
-                            <div id="choosetel" class="phone">
-                                <strong class="fs-16">通过验证手机</strong>
-                                <p>使用手机{{ userinfo.user_tel }}验证</p>
-                                <a class="modtela" href="#">立即验证</a>
-                            </div>
-                            <div id="choosemail" class="email">
-                                <strong class="fs-16">通过验证手机</strong>
-                                <p>使用邮箱{{ userinfo.user_eml }}验证</p>
-                                <a class="modtela" href="#">立即验证</a>
-                            </div>
+                            <form id="mpwd">
+                                <div>
+                                    <label>原密码：</label>
+                                    <input type="password" id="oldpwd">
+                                    <span class="changehint"></span>
+                                </div>
+
+                                <div>
+                                    <label>新密码：</label>
+                                    <input type="password" id="newpwd">
+                                    <span class="newchangehint"></span>
+                                </div>
+                                <div>
+                                    <label>重复新密码：</label>
+                                    <input type="password" id="rnewpwd">
+                                    <span class="rechangehint"></span>
+                                </div>
+                                <a href="javascript:void(0)" class="changepwd_cm">确认</a>
+                                <label class="thint"></label>
+                            </form>
                         </div>
                     </div>
                 </div>
