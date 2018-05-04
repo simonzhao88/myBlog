@@ -1,7 +1,7 @@
-import math
 import re
 from datetime import datetime
 
+import math
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
@@ -201,16 +201,16 @@ def change_pwd(request, user_id, userinfo):
     newpwd = request.POST['newpwd']
     renewpwd = request.POST['renewpwd']
     opassword = SysUser.objects.get(userid=user_id).password
-    if validate_password(enc(opassword), oldpwd):
+    if not validate_password(enc(opassword), oldpwd):
+        return HttpResponse('-1')
+    elif newpwd != renewpwd:
+        return HttpResponse('0')
+    else:
         print(newpwd)
         password = dec(encrypt_password(newpwd))
         print(password)
         # SysUser.objects.get(userid=user_id).password = password
         return HttpResponse('1')
-    elif newpwd != renewpwd:
-        return HttpResponse('0')
-    else:
-        return HttpResponse('-1')
 
 
 

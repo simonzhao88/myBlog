@@ -274,9 +274,8 @@ div {
 #mpwd {
     margin-top: 70px;
     margin-left: 50px;
-    width: 400px;
+    width: 460px;
     font-size: 16px;
-    text-align: center;
 }
 
 #mpwd label {
@@ -287,10 +286,19 @@ div {
 
 }
 
-.changepwd_cm {
+#changecom {
+    margin-left: 125px;
     margin-top: 30px;
 }
 
+.correct, .incorrect {
+    font-size: 12px;
+    color: green;
+}
+
+.incorrect {
+    color: red;
+}
 .w_main .article_form {
     margin: 10px 0 20px 50px;
 }

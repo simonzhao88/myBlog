@@ -172,66 +172,73 @@ $(function () {
     })
 });
 $(function () {
+    var oldpwd = $('#oldpwd').val();
+    var newpwd = $('#newpwd').val();
+    var renewpwd = $('#rnewpwd').val();
+    var pwdreg = /^\w{6,15}$/;
+    var csrftoken = $('[name="csrfmiddlewaretoken"]').val();
+
+    function checknewpwd() {
+        console.log(pwdreg.test(newpwd));
+        if (pwdreg.test(newpwd)) {
+            $('.newchangehint').text('√');
+            $('.newchangehint').attr('class', 'correct');
+            return true;
+        } else {
+            $('.newchangehint').text('X 密码长度为6-20');
+            $('.newchangehint').attr('class', 'incorrect');
+            return false;
+        }
+    }
+
+    function checkrepwd() {
+        if (renewpwd == newpwd && renewpwd) {
+            $('.rechangehint').text('√');
+            $('.rechangehint').attr('class', 'correct');
+            return true;
+        } else {
+            $('.rechangehint').text('X 两次输入的密码不一致');
+            $('.rechangehint').attr('class', 'incorrect');
+            return false;
+        }
+    }
+
+    $('#newpwd').focus(function () {
+        $('.newchangehint').text('');
+        $('#newpwd').blur(checknewpwd);
+    });
+    $('#rnewpwd').focus(function () {
+        $('.rechangehint').text('');
+        $('#rnewpwd').blur(checkrepwd);
+    });
     $('.changepwd_cm').on('click', function (e) {
-        var oldpwd = $('#oldpwd').val();
-        var newpwd = $('#newpwd').val();
-        var renewpwd = $('#rnewpwd').val();
-        var pwdreg = /^\w{6,20}$/;
-        var csrftoken = $('[name="csrfmiddlewaretoken"]').val();
-
-        function checknewpwd() {
-            if (pwdreg.test(newpwd)) {
-                $('newchangehint').text('√');
-                return true;
-            } else {
-                $('newchangehint').text('密码长度为6-20');
-                return false;
-            }
-        }
-
-        function checkrepwd() {
-            if (renewpwd == newpwd) {
-                $('rechangehint').text('√');
-                return true;
-            } else {
-                $('rechangehint').text('两次输入的密码不一致')
-                return false;
-            }
-        }
-
-        $('#newpwd').blur(function () {
-            checknewpwd();
-        });
-        $('#rnewpwd').blur(function () {
-            checkrepwd();
-        });
         e = e || window.event;
         e.preventDefault();
         if (checkrepwd() & checknewpwd()) {
-            $('.changepwd_cm').submit();
+            $.ajax({
+                type: "POST",
+                url: 'change_pwd',
+                data: {
+                    oldpwd: oldpwd, newpwd: newpwd, renewpwd: renewpwd, csrf: csrftoken
+                },
+                dataType: 'json',
+                cache: true,
+                success: function (data) {
+                    if (data == 1) {
+                        $('.thint').html('修改密码成功!').show(100).delay(5000).hide(100);
+                    }
+                    if (data == -1) {
+                        $('.thint').html('原密码输入错误！请重试！').show(100).delay(5000).hide(100);
+                    }
+                    if (data == 0) {
+                        $('.thint').html('两次输入密码不一致，请重新输入！').show(100).delay(5000).hide(100);
+                    }
+                },
+                error: function () {
+                    $('.thint').html('请求失败，请刷新页面后重试').show(100).delay(5000).hide(100);
+                }
+            });
         }
-        $.ajax({
-            type: "POST",
-            url: 'change_pwd',
-            data: {
-                oldpwd: oldpwd, newpwd: newpwd, renewpwd: renewpwd, csrf: csrftoken
-            },
-            dataType: 'json',
-            cache: true,
-            success: function (data) {
-                if (data == 1) {
-                    $('.thint').html('修改密码成功!').show(100).delay(5000).hide(100);
-                }
-                if (data == -1) {
-                    $('.thint').html('原密码输入错误！请重试！').show(100).delay(5000).hide(100);
-                }
-                if (data == 0) {
-                    $('.thint').html('两次输入密码不一致，请重新输入！').show(100).delay(5000).hide(100);
-                }
-            },
-            error: function () {
-                $('.thint').html('请求失败，请刷新页面后重试').show(100).delay(5000).hide(100);
-            }
-        });
+
     });
 });
