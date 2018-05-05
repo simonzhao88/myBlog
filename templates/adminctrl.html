@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load pagetag %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +9,7 @@
     {% endblock %}
     {% block css %}
         <link rel="stylesheet" href="{% static 'css/usercenter.css' %}">
+        <link rel="stylesheet" href="{% static 'css/bootstrap-switch.min.css' %}">
     {% endblock %}
 </head>
 <body>
@@ -51,10 +53,53 @@
                             <p class="f1">权限管理</p>
                         </div>
                     </div>
+                    <div class="articlectrl">
+                        <ol class="article_ol">
+                            <li class="article_li">用户名</li>
+                            <li class="article_li">昵称</li>
+                            <li class="article_li">性别</li>
+                            <li class="article_li pull-right">操作</li>
+                        </ol>
+                        {% for user in userlist %}
+                            <ol class="article_ol" id="article_ol">
+                                <li class="article_de article_li ">{{ user.username }}</li>
+                                <li class="article_de article_li">{{ user.nickname }}</li>
+                                <li class="article_de article_li">{{ user.user_gender }}</li>
+                                <li class="article_de article_li pull-right">
+                                    <div id="mySwitch" class="switch switch-mini">
+                                        <input type="checkbox" checked/>
+                                    </div>
+                                </li>
+                            </ol>
+                        {% endfor %}
+
+                    </div>
+                    <nav aria-label="..." class="split">
+                        <ul class="pagination">
+                            {% if userlist.has_previous %}
+                                <li><a href="?page={{ userlist.previous_page_number }}" aria-label="Previous"><span
+                                        aria-hidden="true">&laquo;</span></a></li>
+                            {% endif %}
+                            {% for pg in userlist.paginator.page_range %}
+                                {% circle_page userlist.number pg %}
+                            {% endfor %}
+                            {% if userlist.has_next %}
+                                <li>
+                                    <a href="?page={{ userlist.next_page_number }}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>
     </div>
+{% endblock %}
+{% block footjs %}
+    <script src="{% static 'js/bootstrap-switch.min.js' %}"></script>
+    <script src="{% static 'js/writearticle.js' %}"></script>
 {% endblock %}
 </body>
 </html>

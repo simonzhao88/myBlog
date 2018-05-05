@@ -45,3 +45,16 @@ def divi(points, lv):
     else:
         point = (points - lv * 100) / 2
     return point
+
+
+@register.simple_tag
+def enphone(phone):
+    entel = phone.replace(phone[3:7], '*****')
+    return entel
+
+
+@register.simple_tag
+def enemail(email):
+    index = email.find('@')
+    enmail = email.replace(email[index - 5:index], '****')
+    return enmail

@@ -172,46 +172,50 @@ $(function () {
     })
 });
 $(function () {
-    var oldpwd = $('#oldpwd').val();
-    var newpwd = $('#newpwd').val();
-    var renewpwd = $('#rnewpwd').val();
-    var pwdreg = /^\w{6,15}$/;
     var csrftoken = $('[name="csrfmiddlewaretoken"]').val();
 
     function checknewpwd() {
-        console.log(pwdreg.test(newpwd));
+        var newpwd = $('#newpwd').val();
+        var pwdreg = /^\w{6,15}$/;
         if (pwdreg.test(newpwd)) {
-            $('.newchangehint').text('√');
-            $('.newchangehint').attr('class', 'correct');
+            $('#newchangehint').text('√');
+            $('#newchangehint').attr('class', 'correct');
             return true;
         } else {
-            $('.newchangehint').text('X 密码长度为6-20');
-            $('.newchangehint').attr('class', 'incorrect');
+            $('#newchangehint').text('X 密码长度为6-20');
+            $('#newchangehint').attr('class', 'incorrect');
             return false;
         }
     }
 
     function checkrepwd() {
+        var newpwd = $('#newpwd').val();
+        var renewpwd = $('#rnewpwd').val();
         if (renewpwd == newpwd && renewpwd) {
-            $('.rechangehint').text('√');
-            $('.rechangehint').attr('class', 'correct');
+            $('#rechangehint').text('√');
+            $('#rechangehint').attr('class', 'correct');
             return true;
         } else {
-            $('.rechangehint').text('X 两次输入的密码不一致');
-            $('.rechangehint').attr('class', 'incorrect');
+            $('#rechangehint').text('X 两次输入的密码不一致');
+            $('#rechangehint').attr('class', 'incorrect');
             return false;
         }
     }
 
     $('#newpwd').focus(function () {
-        $('.newchangehint').text('');
+        $('#newchangehint').text('');
         $('#newpwd').blur(checknewpwd);
     });
+    //
     $('#rnewpwd').focus(function () {
-        $('.rechangehint').text('');
+        $('#rechangehint').text('');
         $('#rnewpwd').blur(checkrepwd);
     });
+
     $('.changepwd_cm').on('click', function (e) {
+        var oldpwd = $('#oldpwd').val();
+        var newpwd = $('#newpwd').val();
+        var renewpwd = $('#rnewpwd').val();
         e = e || window.event;
         e.preventDefault();
         if (checkrepwd() & checknewpwd()) {
@@ -225,7 +229,10 @@ $(function () {
                 cache: true,
                 success: function (data) {
                     if (data == 1) {
-                        $('.thint').html('修改密码成功!').show(100).delay(5000).hide(100);
+                        $('.thint').html('修改密码成功!5秒后跳转登录页面！').show(100).delay(5000).hide(100);
+                        setTimeout(function () {
+                            location.href = '/login/'
+                        }, 5000)
                     }
                     if (data == -1) {
                         $('.thint').html('原密码输入错误！请重试！').show(100).delay(5000).hide(100);
@@ -240,5 +247,19 @@ $(function () {
             });
         }
 
+    });
+});
+$(function () {
+    $('#mySwitch input').bootstrapSwitch({
+        onText: '√',
+        offText: 'X',
+        size: 'large',
+        onColor: 'info',
+        offColor: 'info',
+        onSwitchChange: function (e) {
+            if (state == true) {
+                alert(123);
+            }
+        }
     });
 });

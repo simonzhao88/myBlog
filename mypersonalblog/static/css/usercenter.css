@@ -256,7 +256,7 @@ div {
 }
 
 .modtela:hover, .modtela:visited, .modtela:active,
-.changepwd_cm:hover, .changepwd_cm:visited, .changepwd_cm:active {
+.changepwd_cm:hover, .changepwd_cm:visited, .changepwd_cm:active, .modtela:focus, .changepwd_cm:focus {
     color: white;
     text-decoration: none;
 }
@@ -299,6 +299,7 @@ div {
 .incorrect {
     color: red;
 }
+
 .w_main .article_form {
     margin: 10px 0 20px 50px;
 }
@@ -376,6 +377,7 @@ input[type='submit'], input[type='button'], .modifytag {
 .article_ol {
     padding: 0 !important;
     border-bottom: 1px solid gray;
+    height: 35px;
 }
 .articlectrl .article_ol .article_li {
     list-style: none;

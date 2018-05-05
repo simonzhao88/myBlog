@@ -1,7 +1,7 @@
+import math
 import re
 from datetime import datetime
 
-import math
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
@@ -206,12 +206,16 @@ def change_pwd(request, user_id, userinfo):
     elif newpwd != renewpwd:
         return HttpResponse('0')
     else:
-        print(newpwd)
         password = dec(encrypt_password(newpwd))
-        print(password)
-        # SysUser.objects.get(userid=user_id).password = password
+        data = SysUser.objects.get(userid=user_id)
+        data.password = password
+        data.save()
         return HttpResponse('1')
 
+
+@login_required
+def modify_email(request, user_id, userinfo):
+    return render(request, 'modifyemail.html', {'user_id': user_id, 'userinfo': userinfo})
 
 
 def writeblog(request, a_id):
@@ -341,6 +345,11 @@ def tagctrl(request, user_id, userinfo):
 
 @csrf_exempt
 def del_tag(request):
+    """
+    删除标签
+    :param request:
+    :return:
+    """
     t_id = request.POST['t_id']
     print(t_id)
     Articletag.objects.filter(t_id=t_id).delete()
@@ -357,7 +366,16 @@ def adminctrl(request, user_id, userinfo):
     :param userinfo: 用户信息
     :return:
     """
-    return render(request, 'adminctrl.html', {'user_id': user_id, 'userinfo': userinfo})
+    users = UserInfo.objects.all()
+    pageinator = Paginator(users, 5)
+    try:
+        page = request.GET.get('page')
+        userlist = pageinator.page(page)
+    except PageNotAnInteger:
+        userlist = pageinator.page(1)
+    except EmptyPage:
+        userlist = pageinator.page(pageinator.num_pages)
+    return render(request, 'adminctrl.html', {'user_id': user_id, 'userinfo': userinfo, 'userlist': userlist})
 # def showjokes(request):
 #     day_joke = Joke()
 #     jokes = day_joke.get_joke()
