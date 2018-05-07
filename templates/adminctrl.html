@@ -62,17 +62,16 @@
                         </ol>
                         {% for user in userlist %}
                             <ol class="article_ol" id="article_ol">
-                                <li class="article_de article_li ">{{ user.username }}</li>
+                                <li class="article_de article_li">{{ user.username }}</li>
                                 <li class="article_de article_li">{{ user.nickname }}</li>
                                 <li class="article_de article_li">{{ user.user_gender }}</li>
                                 <li class="article_de article_li pull-right">
-                                    <div id="mySwitch" class="switch switch-mini">
-                                        <input type="checkbox" checked/>
+                                    <div class="switch" id="mySwitch">
+                                        <input type="checkbox" checked name="{{ user.username }}">
                                     </div>
                                 </li>
                             </ol>
                         {% endfor %}
-
                     </div>
                     <nav aria-label="..." class="split">
                         <ul class="pagination">
@@ -98,8 +97,8 @@
     </div>
 {% endblock %}
 {% block footjs %}
-    <script src="{% static 'js/bootstrap-switch.min.js' %}"></script>
     <script src="{% static 'js/writearticle.js' %}"></script>
+    <script src="{% static 'js/bootstrap-switch.min.js' %}"></script>
 {% endblock %}
 </body>
 </html>

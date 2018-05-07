@@ -26,7 +26,11 @@
                 <div class="blog-post">
                     <h2 class="blog-post-title">{{ article.art_tit }}</h2>
                     <p class="blog-post-meta">{{ article.article_time }} by <a href="#">{% author article.userid %}</a>
+                        <span class="glyphicon glyphicon-tag tag" aria-hidden="true"></span>
+                        <a href="#" class="art_tag">{{ article.article_tag }}</a>
                     </p>
+
+
                     <p>{{ article.art_itr }}</p>
                     {{ article.article_content|safe }}
                     <hr>

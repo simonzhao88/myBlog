@@ -30,11 +30,24 @@ body {
 .btn-primary:hover {
     color: #fff;
     background-color: #5a5a5a;
-    border-color: gray();
+    border-color: gray;
 }
 
+.btn-primary:visited, .btn-primary:active:hover,
 .btn-primary {
     border-color: gray;
+    background-color: #555555;
+}
+
+a, a:hover, a:link, .blog-post a:visited, .blog-post a:hover,
+.blog-post a:link {
+    text-decoration: none;
+    color: #555555;
+}
+
+.tag {
+    margin-left: 30px;
+    margin-right: 10px;
 }
 /* CUSTOMIZE THE NAVBARs
 -------------------------------------------------- */

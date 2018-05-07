@@ -253,13 +253,61 @@ $(function () {
     $('#mySwitch input').bootstrapSwitch({
         onText: '√',
         offText: 'X',
-        size: 'large',
         onColor: 'info',
-        offColor: 'info',
-        onSwitchChange: function (e) {
-            if (state == true) {
-                alert(123);
-            }
+        offColor: 'info'
+    });
+});
+$(function () {
+    console.log($('#mySwitch input').attr('checked'));
+    $('#mySwitch input').on('switchChange.bootstrapSwitch', function (event, state) {
+        var username = $(event.target).attr('name');
+        console.log(state);
+        var csrftoken = $('[name="csrfmiddlewaretoken"]').val();
+        var admin = 0;
+        if (state) {
+            admin = 1;
+            $.ajax({
+                type: "POST",
+                url: 'adminctrl',
+                data: {
+                    username: username, admin: admin, csrf: csrftoken
+                },
+                dataType: 'json',
+                cache: true,
+                success: function (data) {
+                    if (data == 1) {
+                        alert(username + '已被设置为管理员！');
+                    }
+                    if (data == 0) {
+                        alert(username + '设置管理员失败~');
+                    }
+                },
+                error: function () {
+                    alert('请求失败，请刷新页面后重试')
+                }
+            });
+        } else {
+            admin = 0;
+            $.ajax({
+                type: "POST",
+                url: 'adminctrl',
+                data: {
+                    username: username, admin: admin, csrf: csrftoken
+                },
+                dataType: 'json',
+                cache: true,
+                success: function (data) {
+                    if (data == 1) {
+                        alert(username + '已被取消管理员权限~');
+                    }
+                    if (data == 0) {
+                        alert(username + '取消管理员权限失败~');
+                    }
+                },
+                error: function () {
+                    alert('请求失败，请刷新页面后重试')
+                }
+            });
         }
     });
 });

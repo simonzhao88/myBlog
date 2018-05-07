@@ -1,7 +1,7 @@
-import math
 import re
 from datetime import datetime
 
+import math
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
@@ -268,12 +268,13 @@ def get_article(request):
             marticle.modify_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             marticle.save()
             return HttpResponse('1')
-        except ValueError:
+        except KeyError:
             userinfo = UserInfo.objects.get(userid=userid)
             userinfo.user_points += 10
             is_upgrade(userid)
             newarticle = Article(userid=userid, art_tit=title, art_itr=introduction, type_no=art_typeno,
-                                 art_type=art_type, article_tag=art_tag, article_time=article_time,
+                                 art_type=art_type, article_tag=str(art_tag),
+                                 article_time=article_time,
                                  article_content=content)
             newarticle.save()
             userinfo.save()
@@ -356,6 +357,7 @@ def del_tag(request):
     return HttpResponse('1')
 
 
+@csrf_exempt
 @login_required
 def adminctrl(request, user_id, userinfo):
     """
@@ -366,16 +368,27 @@ def adminctrl(request, user_id, userinfo):
     :param userinfo: 用户信息
     :return:
     """
-    users = UserInfo.objects.all()
-    pageinator = Paginator(users, 5)
-    try:
-        page = request.GET.get('page')
-        userlist = pageinator.page(page)
-    except PageNotAnInteger:
-        userlist = pageinator.page(1)
-    except EmptyPage:
-        userlist = pageinator.page(pageinator.num_pages)
-    return render(request, 'adminctrl.html', {'user_id': user_id, 'userinfo': userinfo, 'userlist': userlist})
+    if request.method == 'GET':
+        users = UserInfo.objects.all()
+        pageinator = Paginator(users, 5)
+        try:
+            page = request.GET.get('page')
+            userlist = pageinator.page(page)
+        except PageNotAnInteger:
+            userlist = pageinator.page(1)
+        except EmptyPage:
+            userlist = pageinator.page(pageinator.num_pages)
+        return render(request, 'adminctrl.html', {'user_id': user_id, 'userinfo': userinfo, 'userlist': userlist})
+    elif request.method == 'POST':
+        try:
+            username = request.POST['username']
+            admin = request.POST['admin']
+            # data = SysUser.objects.get(username=username)
+            # data.isadmin = admin
+            # data.save()
+            return HttpResponse('1')
+        except ValueError:
+            return HttpResponse('0')
 # def showjokes(request):
 #     day_joke = Joke()
 #     jokes = day_joke.get_joke()
