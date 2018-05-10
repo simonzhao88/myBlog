@@ -1,7 +1,7 @@
+import math
 import re
 from datetime import datetime
 
-import math
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
@@ -106,6 +106,8 @@ def blog_det(request, art_id):
         user_id = ''
         userinfo = ''
     articles = Article.objects.get(a_id=art_id)
+    articles.article_click += 1
+    articles.save()
     return render(request, 'blogdet.html', {'user_id': user_id, 'userinfo': userinfo, 'article': articles})
 
 

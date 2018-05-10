@@ -1,6 +1,6 @@
 from django import template
 
-from ..models import UserInfo
+from ..models import UserInfo, Article
 
 register = template.Library()
 
@@ -58,3 +58,23 @@ def enemail(email):
     index = email.find('@')
     enmail = email.replace(email[index - 5:index], '****')
     return enmail
+
+
+@register.filter
+def next_page(aid):
+    try:
+        art = Article.objects.filter(a_id__gt=aid)
+        return art[0].a_id
+    except IndexError:
+        return aid
+
+
+@register.filter
+def pre_page(aid):
+    try:
+        art = Article.objects.filter(a_id__lt=aid)
+        return art[len(art) - 1].a_id
+    except IndexError:
+        return aid
+    except AssertionError:
+        return 1

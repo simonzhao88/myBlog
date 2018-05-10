@@ -86,11 +86,10 @@
                                     </div>
                                     <input type="hidden" id="val" name="content"/>
                                     <div id="tag">
-                                        <input type="hidden" id="mtag" value="{{ article.article_tag|safe }}">
                                         <label class="article_form">标签：</label>
-                                        <a type="button" name="python">python</a>
-                                        <a type="button" name="html">html</a>
-                                        <a type="button" name="css">css</a>
+                                        {% for tag in tags %}
+                                            <a type="button" name="{{ tag.tagname }}">{{ tag.tagname }}</a>
+                                        {% endfor %}
                                     </div>
                                     <div class="write_error">
                                         <label class="error"></label>

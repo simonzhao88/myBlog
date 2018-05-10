@@ -38,8 +38,8 @@
 
                 <nav>
                     <ul class="pager pull-center">
-                        <li><a href="{% url 'mypersonalblog:blogdet' article.a_id|add:-1 %}">Previous</a></li>
-                        <li><a href="{% url 'mypersonalblog:blogdet' article.a_id|add:1 %}">Next</a></li>
+                        <li><a href="{% url 'mypersonalblog:blogdet' article.a_id|pre_page %}">Previous</a></li>
+                        <li><a href="{% url 'mypersonalblog:blogdet' article.a_id|next_page %}">Next</a></li>
                     </ul>
                 </nav>
 
