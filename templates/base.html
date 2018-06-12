@@ -70,7 +70,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#关于我">
+                            <a href="{% url 'mypersonalblog:aboutMe' %}">
                                 关于我
                             </a>
                         </li>
@@ -132,7 +132,7 @@
 {% endblock %}
 <div>
     <footer class="mastfooter">
-        <p>Copyright&copy; 1993-2018 by <a href="http://www.mmjpg.com/">Simon</a></p>
+        <p>Copyright&copy; 1993-2018 by <a href="https://github.com/simonzhao88">Simon</a></p>
         <p>
             <a href="#">Back to top</a>
         </p>
@@ -142,7 +142,6 @@
     <script src="{% static 'js/holder.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/workround.js' %}"></script>
     {% block footjs %}
-
     {% endblock %}
 </div>
 </body>

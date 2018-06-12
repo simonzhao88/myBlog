@@ -396,3 +396,8 @@ def adminctrl(request, user_id, userinfo):
 #     jokes = day_joke.get_joke()
 #     print(jokes)
 #     return render(jokes, 'index.html', {'jokes': jokes})
+
+
+def about_me(request):
+    if request.method == 'GET':
+        return render(request, 'about_me.html')

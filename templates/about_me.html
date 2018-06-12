@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    <title>关于我</title>
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/usercenter.css' %}">
+    <link href="{% static 'css/blogdet.css' %}" rel="stylesheet">
+    <script src="{% static 'js/writearticle.js' %}"></script>
+    <style>
+        li {
+            margin-top: 15px;
+        }
+    </style>
+{% endblock %}
+{% block main %}
+    <div class="backimg"><img src="{% static 'img/banner2.jpg' %}"/></div>
+    <div class="container clearfix">
+        <div style="text-align: center">
+            <h2>关于我</h2>
+            <ul style="list-style: none">
+                <li>成都中医药大学</li>
+                <li>中医院校里专门搞计算机的</li>
+                <li>一枚Python程序员</li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

@@ -11,6 +11,7 @@ urlpatterns = [
     path('register/registerVerify/', views.registerVerify, name='registerVerify'),
     path('logout/', views.logout, name='logout'),
     re_path('blogdet/(\d+)/', views.blog_det, name='blogdet'),
+    path('aboutme/', views.about_me, name='aboutMe'),
     path('usercenter/myinfo', views.usercenter, name='usercenter'),
     path('usercenter/myinfo/modifytel', views.modify_tel, name='modify_tel'),
     path('usercenter/myinfo/modifypwd', views.modify_pwd, name='modify_pwd'),
