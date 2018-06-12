@@ -398,6 +398,7 @@ def adminctrl(request, user_id, userinfo):
 #     return render(jokes, 'index.html', {'jokes': jokes})
 
 
-def about_me(request):
+@login_required
+def about_me(request, user_id, userinfo):
     if request.method == 'GET':
-        return render(request, 'about_me.html')
+        return render(request, 'about_me.html', {'user_id': user_id, 'userinfo': userinfo})
